@@ -1,11 +1,6 @@
 /**
  * TODO:
  * Badge (on/off)
- * Audiotool newsfeed 'favorited' not hidden
- * Animations on/off toggle
- * checkbox css
- * Options page
- * Whitelist websites
  */
 
 
