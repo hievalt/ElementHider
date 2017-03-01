@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400|Source+Sans+Pro:200" rel="stylesheet">
+    <style type="text/css">
+    body {
+        width: 400px;
+        max-height: 800px;
+    }
+    
+    #mainPopup {
+        height: 200px;
+        width: 100%;
+        padding: 1px;
+    }
+    
+    #mainPopup,
+    #help,
+    #onoff,
+    #testingMode,
+    #openKeywords,
+    #examples {
+        font-family: 'Roboto', sans-serif;
+    }
+    
+    #keywords {
+        width: 99%;
+        height: 100%;
+        background: white;
+        color: black;
+        font-size: 13px;
+        line-height: 1.5em;
+        resize: none;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border-left: none;
+        border-right: none;
+        border-color: black;
+        overflow: auto;
+        display: none;
+        white-space: pre;
+    }
+    
+    #save-btn {
+        background: lightgreen;
+        color: black;
+        margin-bottom: 10px;
+        width: 100%;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        padding: 5px;
+        display: none;
+    }
+    
+    #onoff,
+    #testingMode {
+        font-size: 14px;
+        text-align: center;
+    }
+    
+    #testingMode {
+        float: right;
+    }
+    
+    #onoff,
+    #testingMode,
+    #help {
+        display: none;
+    }
+    
+    #openKeywords,
+    #subLogo {
+        display: inline;
+    }
+    
+    #openKeywords {
+        float: right;
+        margin-bottom: 0;
+    }
+    
+    #help,
+    #openKeywords {
+        font-size: 13px;
+        cursor: pointer;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+    
+    #help,
+    #openKeywords {
+        color: gray;
+    }
+    
+    #help:hover,
+    #openKeywords:hover {
+        color: black;
+    }
+    
+    #examples {
+        margin-top: 10px;
+        display: none;
+        font-size: 13px;
+    }
+    
+    #logo,
+    #logoLine,
+    #wordLine {
+        display: none;
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+    
+    #wordLine {
+        margin: 0;
+    }
+    
+    #optionsIcon {
+        width: 16px;
+        heigth: 16px;
+        margin-bottom: -10px;
+        float: right;
+    }
+    
+    #optionsIcon:hover {
+        border-bottom: solid;
+        border-width: 1px;
+        border-color: black;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="mainPopup">
+        <img id='optionsIcon' src='options.png'>
+        <center>
+            <h1 id='logo'>ElementHider</h1>
+            <hr id='logoLine' style='width:180px;'>
+        </center>
+        <br>
+        <div id='wordLine'>
+            <h2 id='subLogo'>Keywords:</h2>
+            <a id='openKeywords'>&#8599; Open in editor</a>
+        </div>
+        <br>
+        <textarea id='keywords' placeholder="Separate 
+keywords
+with a new line">
+        </textarea>
+        <br>
+        <br>
+        <button id='save-btn'>Save changes</button>
+        <label id='onoff'>
+            <input type='checkbox' id='toggle'> Enabled
+        </label>
+        <label id='testingMode' title='Highlights elements instead of hiding to see the effects of keywords.'>
+            <input type='checkbox' id='toggleTesting'> Testing mode</label>
+        <br>
+        <p id='help'>Show keyword examples</p>
+        <p id='examples'>
+            <br>
+            <strong>Keyword</strong> = case-sensitive, can be anywhere in the text
+            <br>
+            <strong>*Keyword</strong> = case-sensitive, has to be exactly the same on the webpage
+            <br>
+            <strong>Keyword^</strong> = case-insensitive, can be anywhere in the text
+            <br>
+            <strong>*Keyword^</strong> = matches Keyword OR keyword
+            <br>
+            <strong>{css selector}</strong> = hides elements that apply to the css selector. For example {.class} {#id-element}
+            <br> // Two slashes starts a comment line
+            <br>
+            <br>
+            <strong><i>Use Testing mode to easily observe the effects on the webpage. Hover on highlighted element to see which keyword was found on it.</i></strong>
+        </p>
+    </div>
+    <script type="text/javascript" src='popup.js'></script>
+</body>
+
+</html>

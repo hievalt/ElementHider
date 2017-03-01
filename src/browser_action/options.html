@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <script src="jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400|Source+Sans+Pro:200" rel="stylesheet">
+    <script type="text/javascript" src='options.js'></script>
+    <title>ElementHider Options</title>
+    <style>
+    body {
+        text-align: center;
+        min-height: 450px;
+        min-width: 600px;
+        overflow: hidden;
+    }
+    
+    #logo {
+        font-size: 26px;
+    }
+    
+    #logoLine {
+        margin-bottom: 25px;
+    }
+    
+    label {
+        font-size: 14px;
+    }
+    
+    textarea {
+        width: 100%;
+        height: 300px;
+        font-size: 14px;
+        white-space: pre;
+        border-right: none;
+        border-left: none;
+        resize: none;
+        border-color: black;
+    }
+    
+    #logo,
+    #logoLine {
+        display: none;
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+    
+    .radios,
+    #urls,
+    #blurOption,
+    #hoveringOption,
+    #tip {
+        display: none;
+    }
+    
+    #tip {
+        font-size: 14px;
+    }
+    </style>
+</head>
+
+<body>
+    <h1 id='logo'>Options</h1>
+    <hr id='logoLine' style='width:180px;'>
+    <label id='blurOption'>
+        <input type='checkbox' id='blurred'> Blur elements instead of hiding
+    </label>
+    <br>
+    <br>
+    <label id='hoveringOption'>
+        <input type='checkbox' id='hovering'> Hover on blurred elements to show them
+    </label>
+    <br>
+    <br>
+    <label class='radios'>
+        <input class='radios' type='radio' name='option' id='disabler' checked> Disable ElementHider on websites that include any of the following strings in the url</label>
+    <br>
+    <br>
+    <label class='radios'>
+        <input type='radio' class='radios' name='option' id='enabler'> Enable ElementHider ONLY on websites that include any of the following strings in the url</label>
+    <br>
+    <br>
+    <textarea id='urls' placeholder='For example: youtube.com 
+Separate urls/strings with new line '></textarea>
+    <p id='tip'>Leave textbox blank if you want ElementHider to hide elements on all websites.</p>
+</body>
+
+</html>
