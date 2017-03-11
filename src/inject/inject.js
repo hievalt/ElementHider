@@ -6,8 +6,9 @@
 
 // Tags that will be checked for keywords 
 var elemTags = 'em, h1, h2, h3, h4, h5, h6, span, b, a, p, li, article, strong, blockquote, div, th, td';
+
 // Max children elements allowed (default presets)
-var cDefault = parseInt($('body').find('*').length * 0.006), // Elements (to hide) can contain 0,3% of all page elements if its >=25 (else = 25)
+var cDefault = parseInt($('body').find('*').length * 0.006), // Elements (to hide) can contain 0,6% of all page elements if its >=25 (else = 25)
     cTwitter = 200,
     cYoutube = 75,
     cFacebook = 300,
@@ -21,44 +22,48 @@ if (cDefault < 25) cDefault = 25;
 
 
 /**
- * [testElem Testing mode, highlights elements instead of hiding]
- * @param  {[element]} elem   [element to be handled]
+ * testElem
+ * Testmode, highlights elements with green border
+ * @param  Element elem - element to be handled
  
  */
-function testElem(elem, sana) {
+function testElem(elem, word) {
     elem.css({
         'border': 'solid',
         'border-color': 'lime',
         'border-width': '2px'
     });
-    if (elem.attr('title') == undefined) elem.attr('title', 'Keywords found: ' + sana);
-    else if (!elem.attr('title').includes('Keywords found:')) elem.attr('title', 'Keyword found: ' + sana);
-    else elem.attr('title', elem.attr('title') + ', ' + sana);
+    if (elem.attr('title') == undefined) elem.attr('title', 'Keywords found: ' + word);
+    else if (!elem.attr('title').includes('Keywords found:')) elem.attr('title', 'Keyword found: ' + word);
+    else elem.attr('title', elem.attr('title') + ', ' + word);
 
 }
 
 /**
- * [hideElem Hide Element]
- * @param  {element} elem   element to be handled
- * @param {string} sana     word found
+ * hideElem, hides or blurs element (depends on settings)
+ * @param Element elem - Element to be handled
+ * @param String word - Word that contains one of the keywords
  */
-function hideElem(elem, sana) {
+function hideElem(elem, word) {
     chrome.storage.sync.get('blurOption', function(result) {
         if (result.blurOption) {
             elem.css({ 'filter': 'blur(10px)' });
             var timeOut;
             chrome.storage.sync.get('hoveringOption', function(result) {
                 if (result.hoveringOption) {
+                	// If "Reveal on hover" -setting is checked, remove blur on mouse hover
                     elem.hover(function() {
                         timeOut = setTimeout(function() { elem.css({ 'filter': 'blur(0px)' }); }, 500)
                     }, function() {
+                    	// Blur element again on mouseleave
                         clearTimeout(timeOut);
                         elem.css({ 'filter': 'blur(10px)' });
                     });
                 } else {
-                    if (elem.attr('title') == undefined) elem.attr('title', 'Keywords found: ' + sana);
-                    else if (!elem.attr('title').includes('Keywords found:')) elem.attr('title', 'Keyword found: ' + sana);
-                    else elem.attr('title', elem.attr('title') + ', ' + sana);
+                	// If "hover to reveal" -option is unchecked, show which keywords were found on the element onhover
+                    if (elem.attr('title') == undefined) elem.attr('title', 'Keywords found: ' + word);
+                    else if (!elem.attr('title').includes('Keywords found:')) elem.attr('title', 'Keyword found: ' + word);
+                    else elem.attr('title', elem.attr('title') + ', ' + word);
                 }
             });
         } else elem.slideUp("slow");
@@ -70,9 +75,10 @@ function hideElem(elem, sana) {
 
 
 /**
- * [hideViaSelector Hide elements with selector]
- * @param  {[string]} selector    [css selector]
- * @param  {[bool]} testingMode [Is testing mode enabled]
+ * hideViaSelector, Hides elements via css-selector
+ * If testing mode is on, highlights elements with blue instead of hiding 
+ * @param  String selector - css-selector to hide
+ * @param  bool testingMode - testingMode on/off
  */
 function hideViaSelector(selector, testingMode) {
     if (!testingMode) {
@@ -89,13 +95,14 @@ function hideViaSelector(selector, testingMode) {
 }
 
 /**
- * [checkAllElems go through elements and check if they contain any of the keywords]
- * @param  {[array]} sanalista  [array of keywords]
- * @param  {[bool]} testingMode [is testing mode enabled]
- * @param  {[element]} elem     [element or string of tags]
+ * checkAllElems, go through elements and check if they contain any of the keywords
+ * @param  Array wordlist - array of keywords
+ * @param  bool testingMode - testing mode on/off
+ * @param  Element elem - Element or string of tags
  */
-function checkAllElems(sanalista, testingMode, elem) {
+function checkAllElems(wordlist, testingMode, elem) {
     var maxChildren = cDefault;
+    // Check if user is on website that has a preset set
     if (window.location.href.includes('www.youtube.com')) maxChildren = cYoutube;
     else if (window.location.href.includes('https://twitter.com')) maxChildren = cTwitter;
     else if (window.location.href.includes('www.facebook.com')) maxChildren = cFacebook;
@@ -116,52 +123,52 @@ function checkAllElems(sanalista, testingMode, elem) {
             var elemExist = setInterval(function() {
                 if ($(this) != null) clearInterval(elemExist);
             }, 100);
-            for (i in sanalista) {
+            for (i in wordlist) {
                 /* Keyword cannot be empty. 
                 '//' starts a comment line and can be ignored. */
-                if (sanalista[i] != '' && sanalista[i].slice(0, 2) != '//') {
+                if (wordlist[i] != '' && wordlist[i].slice(0, 2) != '//') {
 
-                    var sana = sanalista[i].toString(); //toString bc if sana contains only numbers
+                    var word = wordlist[i].toString(); //toString bc if word contains only numbers
 
                     /* Keyword is {css selector} */
-                    if (sana.slice(0, 1) == '{' && sana.slice(-1) == '}') hideViaSelector($(sana.replace('{', '').replace('}', '')), testingMode)
+                    if (word.slice(0, 1) == '{' && word.slice(-1) == '}') hideViaSelector($(word.replace('{', '').replace('}', '')), testingMode)
 
                     /* If word has to be exactly in the given format but special characters can follow */
-                    if (sana.slice(0, 1) == '*') {
+                    if (word.slice(0, 1) == '*') {
 
                         /* Remove * from the keyword */
-                        sana = sana.slice(1).trim();
+                        word = word.slice(1).trim();
 
                         /* If keyword has to be exact but is case-insensitive */
-                        if (sana.slice(-1) == '^') {
-                            sana = sana.slice(0, -1);
-                            if (new RegExp("\\b" + sana + "\\b", 'gi').test($(this).text()) && $(this).css('display') != 'none') {
-                                if (!testingMode) hideElem($(this), sana);
-                                else testElem($(this), sana);
+                        if (word.slice(-1) == '^') {
+                            word = word.slice(0, -1);
+                            if (new RegExp("\\b" + word + "\\b", 'gi').test($(this).text()) && $(this).css('display') != 'none') {
+                                if (!testingMode) hideElem($(this), word);
+                                else testElem($(this), word);
                             }
                             /* If keyword has to be exact and case-sensitive */
                         } else {
-                            if (new RegExp("\\b" + sana + "\\b", 'g')
+                            if (new RegExp("\\b" + word + "\\b", 'g')
                                 .test($(this).text()) && $(this).css('display') != 'none') {
-                                if (!testingMode) hideElem($(this), sana);
-                                else testElem($(this), sana);
+                                if (!testingMode) hideElem($(this), word);
+                                else testElem($(this), word);
                             }
                         }
                         /* If word is case-insensitive */
-                    } else if (sana.slice(-1) == '^') {
-                        sana = sana.slice(0, -1).trim();
-                        if (new RegExp(sana, 'gi')
+                    } else if (word.slice(-1) == '^') {
+                        word = word.slice(0, -1).trim();
+                        if (new RegExp(word, 'gi')
                             .test($(this).text()) && $(this).css('display') != 'none') {
-                            if (!testingMode) hideElem($(this), sana);
-                            else testElem($(this), sana);
+                            if (!testingMode) hideElem($(this), word);
+                            else testElem($(this), word);
                         }
                         /* Word is case-sensitive and it can appear anywhere in the text. */
                     } else {
-                        sana = sana.trim();
-                        if (new RegExp(sana, 'g')
+                        word = word.trim();
+                        if (new RegExp(word, 'g')
                             .test($(this).text()) && $(this).css('display') != 'none') {
-                            if (!testingMode) hideElem($(this), sana);
-                            else testElem($(this), sana);
+                            if (!testingMode) hideElem($(this), word);
+                            else testElem($(this), word);
                         }
                     }
                 }
@@ -171,20 +178,20 @@ function checkAllElems(sanalista, testingMode, elem) {
 }
 
 /**
- * [getSanalista load list of user set words]
- * @param  {[element]} elem [element to be handled]
+ * getWordlist, load list of user set keywords
+ * @param  Element elem - element to be handled
  */
-function getSanalista(elem) {
-    var sanalista;
+function getWordlist(elem) {
+    var wordlist;
     chrome.storage.sync.get(['words', 'testingMode'], function(result) {
-        sanalista = result.words.split('\n');
-        checkAllElems(sanalista, result.testingMode, elem);
+        wordlist = result.words.split('\n');
+        checkAllElems(wordlist, result.testingMode, elem);
     });
 }
 
 /**
- * [runningStatus Check if ElementHider is enabled]
- * @param  {[element]} elem [element to be handled]]
+ * runningStatus, Check if ElementHider is enabled
+ * @param  Element elem - element to be handled
  */
 function runningStatus(elem) {
     chrome.storage.sync.get('enabled', function(result) {
@@ -203,7 +210,7 @@ function runningStatus(elem) {
                             if (found) break;
                         }
                         if (!found) {
-                            getSanalista(elem);
+                            getWordlist(elem);
 
                         } // else console.log('Disabled url detected: ' + urls[url]);
                     } else {
@@ -215,17 +222,19 @@ function runningStatus(elem) {
                             if (found) break;
                         }
                         if (found) {
-                            getSanalista(elem);
+                            getWordlist(elem);
                             // console.log('Enabled url detected: ' + urls[url]);
                         } // else  console.log('[2] Url blocked');
                     }
-                } else getSanalista(elem);
+                } else getWordlist(elem);
             });
+            
         }
     });
 }
 
-// Monitor new or changed DOM
+// Mutation observer to observe new or changed elements (mainly for ajax created content)
+// Only checks new or changed elements on the webpage
 function Observer() {
     var observer = new MutationObserver(function(mutation) {
         for (var a = 0; a < mutation.length; a++) {
@@ -236,19 +245,14 @@ function Observer() {
                 if (node.children.length) {
                     var nodes = node.getElementsByTagName('div');
                     for (var c = 0; c < nodes.length; c++) {
-                        // console.log(nodes[c].className);
                         runningStatus(nodes[c]);
-                        /* $(nodes[c]).css({
-                            'border': 'solid',
-                            'border-color': 'lime',
-                            'border-width': '2px'
-                        }); */
                     }
                 }
             }
         }
     });
 
+    // Mutation observer conf
     var config = {
         childList: true,
         subtree: true,
@@ -256,18 +260,18 @@ function Observer() {
         characterData: true
     };
 
+    // Start observing
     observer.observe(window.document, config);
 }
-
-chrome.storage.sync.get('enabled', function(result) {
-    if (result.enabled) Observer();
-});
 
 // Eventhandler for document loaded
 $(window).ready(function() {
     runningStatus(elemTags);
+    Observer();
 });
 
+// Check all elements if url has been changed
+// For websites that load new entire pages with ajax (like youtube.com)
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.greeting == 'urlChange') {
         setTimeout(function() {
