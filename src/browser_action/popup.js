@@ -12,7 +12,17 @@ function loadData() {
         else $('#keywords').value = '';
         $('#toggle').prop('checked', result.enabled);
         $('#toggleTesting').prop('checked', result.testingMode);
-    })
+
+        if ($('#toggle').prop('checked')) {
+            $('#onoff').css({
+                'color': 'green'
+            });
+        } else {
+            $('#onoff').css({
+                "color": "red"
+            });
+        }
+    });
 }
 
 function saveEnabled() {
@@ -20,6 +30,15 @@ function saveEnabled() {
     chrome.storage.sync.set({
         "enabled": enabled
     });
+    if ($('#toggle').prop('checked')) {
+        $('#onoff').css({
+            'color': 'green'
+        });
+    } else {
+        $('#onoff').css({
+            "color": "red"
+        });
+    }
 }
 
 function saveTestingMode() {
