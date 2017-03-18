@@ -47,20 +47,28 @@ function testElem(elem, word) {
 function hideElem(elem, word) {
     chrome.storage.sync.get('blurOption', function(result) {
         if (result.blurOption) {
-            elem.css({ 'filter': 'blur(10px)' });
+            elem.css({
+                'filter': 'blur(10px)'
+            });
             var timeOut;
             chrome.storage.sync.get('hoveringOption', function(result) {
                 if (result.hoveringOption) {
-                	// If "Reveal on hover" -setting is checked, remove blur on mouse hover
+                    // If "Reveal on hover" -setting is checked, remove blur on mouse hover
                     elem.hover(function() {
-                        timeOut = setTimeout(function() { elem.css({ 'filter': 'blur(0px)' }); }, 500)
+                        timeOut = setTimeout(function() {
+                            elem.css({
+                                'filter': 'blur(0px)'
+                            });
+                        }, 500)
                     }, function() {
-                    	// Blur element again on mouseleave
+                        // Blur element again on mouseleave
                         clearTimeout(timeOut);
-                        elem.css({ 'filter': 'blur(10px)' });
+                        elem.css({
+                            'filter': 'blur(10px)'
+                        });
                     });
                 } else {
-                	// If "hover to reveal" -option is unchecked, show which keywords were found on the element onhover
+                    // If "hover to reveal" -option is unchecked, show which keywords were found on the element onhover
                     if (elem.attr('title') == undefined) elem.attr('title', 'Keywords found: ' + word);
                     else if (!elem.attr('title').includes('Keywords found:')) elem.attr('title', 'Keyword found: ' + word);
                     else elem.attr('title', elem.attr('title') + ', ' + word);
@@ -130,23 +138,23 @@ function checkAllElems(wordlist, testingMode, elem) {
 
                     var word = wordlist[i].toString(); //toString bc if word contains only numbers
 
-                    /* Keyword is {css selector} */
+                    // Keyword is {css selector}
                     if (word.slice(0, 1) == '{' && word.slice(-1) == '}') hideViaSelector($(word.replace('{', '').replace('}', '')), testingMode)
 
-                    /* If word has to be exactly in the given format but special characters can follow */
+                    // If word has to be exactly in the given format but special characters can follow
                     if (word.slice(0, 1) == '*') {
 
-                        /* Remove * from the keyword */
+                        // Remove * from the keyword 
                         word = word.slice(1).trim();
 
-                        /* If keyword has to be exact but is case-insensitive */
+                        // If keyword has to be exact but is case-insensitive
                         if (word.slice(-1) == '^') {
                             word = word.slice(0, -1);
                             if (new RegExp("\\b" + word + "\\b", 'gi').test($(this).text()) && $(this).css('display') != 'none') {
                                 if (!testingMode) hideElem($(this), word);
                                 else testElem($(this), word);
                             }
-                            /* If keyword has to be exact and case-sensitive */
+                            // If keyword has to be exact and case-sensitive 
                         } else {
                             if (new RegExp("\\b" + word + "\\b", 'g')
                                 .test($(this).text()) && $(this).css('display') != 'none') {
@@ -154,7 +162,7 @@ function checkAllElems(wordlist, testingMode, elem) {
                                 else testElem($(this), word);
                             }
                         }
-                        /* If word is case-insensitive */
+                        // If word is case-insensitive
                     } else if (word.slice(-1) == '^') {
                         word = word.slice(0, -1).trim();
                         if (new RegExp(word, 'gi')
@@ -162,7 +170,7 @@ function checkAllElems(wordlist, testingMode, elem) {
                             if (!testingMode) hideElem($(this), word);
                             else testElem($(this), word);
                         }
-                        /* Word is case-sensitive and it can appear anywhere in the text. */
+                        // Word is case-sensitive and it can appear anywhere in the text.
                     } else {
                         word = word.trim();
                         if (new RegExp(word, 'g')
@@ -228,13 +236,16 @@ function runningStatus(elem) {
                     }
                 } else getWordlist(elem);
             });
-            
+
         }
     });
 }
 
-// Mutation observer to observe new or changed elements (mainly for ajax created content)
-// Only checks new or changed elements on the webpage
+/**
+ *  Observer function 
+ *  Mutation observer to observe new or changed elements (mainly for ajax created content, better performance)
+ *  Only checks new or changed elements on the webpage
+ */
 function Observer() {
     var observer = new MutationObserver(function(mutation) {
         for (var a = 0; a < mutation.length; a++) {

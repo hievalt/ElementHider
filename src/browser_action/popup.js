@@ -12,33 +12,43 @@ function loadData() {
         else $('#keywords').value = '';
         $('#toggle').prop('checked', result.enabled);
         $('#toggleTesting').prop('checked', result.testingMode);
-
-        if ($('#toggle').prop('checked')) {
-            $('#onoff').css({
-                'color': 'green'
-            });
-        } else {
-            $('#onoff').css({
-                "color": "red"
-            });
-        }
+        onOff();
     });
 }
+
+function onOff() {
+    if ($('#toggle').prop('checked')) {
+        $('#onoff').css({
+                'color': 'black'
+            })
+            .text('On');
+        chrome.browserAction.setBadgeText({
+            text: 'ON'
+        });
+        chrome.browserAction.setBadgeBackgroundColor({
+            color: 'lime'
+        });
+    } else {
+        $('#onoff').css({
+                "color": "red"
+            })
+            .text('Off');
+        chrome.browserAction.setBadgeText({
+            text: 'OFF'
+        });
+        chrome.browserAction.setBadgeBackgroundColor({
+            color: 'red'
+        });
+    }
+}
+
 
 function saveEnabled() {
     var enabled = $('#toggle').prop('checked');
     chrome.storage.sync.set({
         "enabled": enabled
     });
-    if ($('#toggle').prop('checked')) {
-        $('#onoff').css({
-            'color': 'green'
-        });
-    } else {
-        $('#onoff').css({
-            "color": "red"
-        });
-    }
+    onOff();
 }
 
 function saveTestingMode() {
