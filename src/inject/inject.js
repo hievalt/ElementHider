@@ -5,7 +5,7 @@
 
 
 // Tags that will be checked for keywords 
-var elemTags = 'em, h1, h2, h3, h4, h5, h6, span, b, a, p, li, article, strong, blockquote, div, th, td';
+var elemTags = 'em, h1, h2, h3, h4, h5, h6, span, b, a, p, li, article, strong, blockquote, div, th, td, img';
 
 // Max children elements allowed (default presets)
 var cDefault = parseInt($('body').find('*').length * 0.006), // Elements (to hide) can contain 0,6% of all page elements if its >=25 (else = 25)
