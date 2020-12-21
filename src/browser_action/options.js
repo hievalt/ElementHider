@@ -1,12 +1,12 @@
 function SaveUrls() {
-    var urls = $('#urls').val();
+    let urls = $('#urls').val();
     chrome.storage.sync.set({
         "urls": urls
     });
 }
 
 function loadData() {
-    chrome.storage.sync.get(['urlRule', 'urls', 'blurOption', 'hoveringOption'], function(result) {
+    chrome.storage.sync.get(['urlRule', 'urls', 'blurOption', 'hoveringOption', 'disableAnim'], function(result) {
         if (result.urls != undefined) $('#urls').val(result.urls);
         else $('#urls').val('');
         $('#blurred').prop('checked', result.blurOption);
@@ -15,6 +15,7 @@ function loadData() {
         $('#hovering').prop('checked', result.hoveringOption);
         if (result.urlRule) $('#disabler').prop('checked', result.urlRule);
         else $('#enabler').prop('checked', true);
+        $('#disableAnim').prop('checked', result.disableAnim);
     })
 }
 
@@ -27,21 +28,21 @@ function Unsaved() {
 }
 
 function disablerRadio() {
-    var rule = $('#disabler').prop('checked');
+    let rule = $('#disabler').prop('checked');
     chrome.storage.sync.set({
         'urlRule': rule
     });
 }
 
 function enablerRadio() {
-    var rule = $('#disabler').prop('checked');
+    let rule = $('#disabler').prop('checked');
     chrome.storage.sync.set({
         'urlRule': rule
     });
 }
 
 function saveBlurOption() {
-    var blurred = $('#blurred').prop('checked');
+    let blurred = $('#blurred').prop('checked');
     chrome.storage.sync.set({
         'blurOption': blurred
     });
@@ -50,14 +51,14 @@ function saveBlurOption() {
 }
 
 function saveHoveringOption() {
-    var hovering = $('#hovering').prop('checked');
+    let hovering = $('#hovering').prop('checked');
     chrome.storage.sync.set({
         'hoveringOption': hovering
     });
 }
 
 function saveDisableAnimation() {
-    var anim = $('#disableAnim').prop('checked');
+    let anim = $('#disableAnim').prop('checked');
     chrome.storage.sync.set({
         'disableAnim': anim
     });
