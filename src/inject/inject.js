@@ -74,7 +74,14 @@ function hideElem(elem, word) {
                     else elem.attr('title', elem.attr('title') + ', ' + word);
                 }
             });
-        } else elem.slideUp("slow");
+        } else {
+            chrome.storage.sync.get('disableAnim', function(result){
+                if (result.disableAnim) {
+                    elem.hide();
+                } else elem.slideUp("slow");
+            });
+            
+        }
     });
 
 

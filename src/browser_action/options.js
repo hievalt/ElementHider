@@ -56,12 +56,20 @@ function saveHoveringOption() {
     });
 }
 
+function saveDisableAnimation() {
+    var anim = $('#disableAnim').prop('checked');
+    chrome.storage.sync.set({
+        'disableAnim': anim
+    });
+}
+
 
 $(document).ready(function() {
     loadData();
     $('#urls').bind('input', Unsaved);
     $('#blurred').bind('change', saveBlurOption);
     $('#hovering').bind('change', saveHoveringOption);
+    $('#disableAnim').bind('change', saveDisableAnimation);
     $('#disabler').bind('change', disablerRadio);
     $('#enabler').bind('change', enablerRadio);
     $('#logo').fadeIn(1000);
