@@ -1,50 +1,15 @@
 <head>
     <script src="jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,400|Source+Sans+Pro:200" rel="stylesheet">
+    <link rel="stylesheet" href="./css/editor.css">
     <title>Keyword Editor</title>
-    <style>
-    #container {
-        height: 90%;
-        width: 100%;
-    }
-    
-    #keywords {
-        width: 100%;
-        height: 100%;
-        background: white;
-        color: black;
-        line-height: 1.5em;
-        border-left: none;
-        border-right: none;
-        overflow: auto;
-        display: none;
-        font-size: 14px;
-        resize: none;
-    }
-    
-    #subLogo {
-        display: none;
-        font-family: 'Source Sans Pro', sans-serif;
-    }
-    
-    #save-btn {
-        background: white;
-        color: black;
-        width: 100%;
-        border-style: solid;
-        border-color: black;
-        border-width: 1px;
-        padding: 5px;
-        display: none;
-    }
-    </style>
 </head>
 <div id='container'>
     <center>
         <h2 id='subLogo'>Keyword Editor</h2></center>
     <textarea id='keywords' placeholder="Separate 
 keywords
-with a new line">
+with a new line" maxlength="-1">
     </textarea>
 </div>
 <script type="text/javascript" src='KeywordEditor.js'></script>

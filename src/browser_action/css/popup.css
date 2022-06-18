@@ -1,0 +1,123 @@
+body {
+  width: 400px;
+  max-height: 800px;
+}
+
+#mainPopup {
+  height: 200px;
+  width: 100%;
+  padding: 1px;
+}
+
+#mainPopup,
+#help,
+#onoff,
+#testingMode,
+#openKeywords,
+#examples {
+  font-family: "Roboto", sans-serif;
+}
+
+#keywords {
+  width: 99%;
+  height: 100%;
+  background: white;
+  color: black;
+  font-size: 13px;
+  line-height: 1.5em;
+  resize: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-left: none;
+  border-right: none;
+  border-color: black;
+  overflow: auto;
+  display: none;
+  white-space: pre;
+}
+
+#save-btn {
+  background: lightgreen;
+  color: black;
+  margin-bottom: 10px;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  padding: 5px;
+  display: none;
+}
+
+#onoff,
+#testingMode {
+  font-size: 14px;
+  text-align: center;
+}
+
+#testingMode {
+  float: right;
+}
+
+#onoff,
+#testingMode,
+#help {
+  display: none;
+}
+
+#openKeywords,
+#subLogo {
+  display: inline;
+}
+
+#openKeywords {
+  float: right;
+  margin-bottom: 0;
+}
+
+#help,
+#openKeywords {
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+#help,
+#openKeywords {
+  color: gray;
+}
+
+#help:hover,
+#openKeywords:hover {
+  color: black;
+}
+
+#examples {
+  margin-top: 10px;
+  display: none;
+  font-size: 13px;
+}
+
+#logo,
+#logoLine,
+#wordLine {
+  display: none;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+#wordLine {
+  margin: 0;
+}
+
+#optionsIcon {
+  width: 16px;
+  heigth: 16px;
+  margin-bottom: -10px;
+  float: right;
+}
+
+#optionsIcon:hover {
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: black;
+}

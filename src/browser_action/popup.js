@@ -1,5 +1,5 @@
 function SaveWords() {
-    var words = $('#keywords').val();
+    let words = $('#keywords').val();
     chrome.storage.sync.set({
         "words": words
     });
@@ -22,10 +22,10 @@ function onOff() {
                 'color': 'black'
             })
             .text('On');
-        chrome.browserAction.setBadgeText({
+        chrome.action.setBadgeText({
             text: 'ON'
         });
-        chrome.browserAction.setBadgeBackgroundColor({
+        chrome.action.setBadgeBackgroundColor({
             color: 'lime'
         });
     } else {
@@ -33,10 +33,10 @@ function onOff() {
                 "color": "red"
             })
             .text('Off');
-        chrome.browserAction.setBadgeText({
+        chrome.action.setBadgeText({
             text: 'OFF'
         });
-        chrome.browserAction.setBadgeBackgroundColor({
+        chrome.action.setBadgeBackgroundColor({
             color: 'red'
         });
     }
@@ -44,7 +44,7 @@ function onOff() {
 
 
 function saveEnabled() {
-    var enabled = $('#toggle').prop('checked');
+    let enabled = $('#toggle').prop('checked');
     chrome.storage.sync.set({
         "enabled": enabled
     });
@@ -52,7 +52,7 @@ function saveEnabled() {
 }
 
 function saveTestingMode() {
-    var testingMode = $('#toggleTesting').prop('checked');
+    let testingMode = $('#toggleTesting').prop('checked');
     chrome.storage.sync.set({
         "testingMode": testingMode
     });
@@ -88,7 +88,7 @@ function showExamples() {
 
 function keywordEditor() {
     chrome.windows.create({
-        "url": chrome.extension.getURL('src/browser_action/KeywordEditor.html'),
+        "url": chrome.runtime.getURL('src/browser_action/KeywordEditor.html'),
         'type': 'popup',
         "width": 600,
         "height": 400,

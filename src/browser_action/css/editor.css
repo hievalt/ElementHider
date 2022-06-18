@@ -1,0 +1,34 @@
+#container {
+  height: 90%;
+  width: 100%;
+}
+
+#keywords {
+  width: 100%;
+  height: 100%;
+  background: white;
+  color: black;
+  line-height: 1.5em;
+  border-left: none;
+  border-right: none;
+  overflow: auto;
+  display: none;
+  font-size: 14px;
+  resize: none;
+}
+
+#subLogo {
+  display: none;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+#save-btn {
+  background: white;
+  color: black;
+  width: 100%;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  padding: 5px;
+  display: none;
+}

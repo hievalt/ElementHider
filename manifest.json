@@ -1,7 +1,7 @@
 {
     "name": "ElementHider",
-    "version": "0.2.21",
-    "manifest_version": 2,
+    "version": "0.2.22",
+    "manifest_version": 3,
     "description": "Hides elements that contain keywords set by user",
     "homepage_url": "https://chrome.google.com/webstore/detail/elemhide/jnbamieaacddlfcoanmbkclnpoafhmie",
     "icons": {
@@ -9,28 +9,31 @@
     },
     "default_locale": "en",
     "options_ui": {
-        "page": "src/browser_action/options.html",
-        "chrome_style": true
+        "page": "src/browser_action/options.html"
     },
     "permissions": [
-        "storage",
-        "<all_urls>"
+        "storage"
     ],
     "background": {
-        "scripts": ["bg.js"]
+        "service_worker": "bg.js"
     },
-    "browser_action": {
+    "host_permissions": [
+        "*://*/*"
+    ],
+    "action": {
         "default_icon": "icons/icon.png",
         "default_title": "ElementHider",
         "default_popup": "src/browser_action/popup.html"
     },
-    "content_scripts": [{
-        "matches": [
-            "<all_urls>"
-        ],
-        "js": [
-            "js/jquery/jquery.js",
-            "src/inject/inject.js"
-        ]
-    }]
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*/*"
+            ],
+            "js": [
+                "js/jquery/jquery.js",
+                "src/inject/inject.js"
+            ]
+        }
+    ]
 }
