@@ -2,7 +2,7 @@ body {
   text-align: center;
   min-height: 450px;
   min-width: 600px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 #logo {

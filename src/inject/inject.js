@@ -2,8 +2,6 @@
 let elemTags =
   "em, h1, h2, h3, h4, h5, h6, span, b, a, p, li, article, strong, blockquote, div, th, td, img";
 
-// Elements (to hide) can contain 0,6% of all page elements if its >=25 (else = 25)
-
 /**
  * testElem
  * Testmode, highlights elements with green border
@@ -113,8 +111,9 @@ function checkAllElems(wordlist, testingMode, elem) {
   chrome.storage.sync.get("childElemRatio", function (result) {
     let percentage = !isNaN(parseFloat(result.childElemRatio))
       ? parseFloat(result.childElemRatio.replace(",", ".")) / 100
-      : 0.02;
+      : 0.006;
     childElemRatio = parseInt($("body").find("*").length * percentage);
+    console.log(percentage, childElemRatio);
 
     elemType.forEach((tag) => {
       if (tag.querySelectorAll("*").length < childElemRatio) {
