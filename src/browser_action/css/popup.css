@@ -111,7 +111,7 @@ body {
 
 #optionsIcon {
   width: 16px;
-  heigth: 16px;
+  height: 16px;
   margin-bottom: -10px;
   float: right;
 }
@@ -120,4 +120,9 @@ body {
   border-bottom: solid;
   border-width: 1px;
   border-color: black;
+}
+
+#maxCharError {
+  color: red;
+  font-size: large;
 }

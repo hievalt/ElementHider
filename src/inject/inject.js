@@ -110,12 +110,13 @@ function checkAllElems(wordlist, testingMode, elem) {
     elemType = elem.parentElement.parentElement.querySelectorAll(elemTags);
   } else elemType = document.querySelectorAll(elem);
 
-  elemType.forEach((tag) => {
-    chrome.storage.sync.get("childElemRatio", function (result) {
-      let percentage = !isNaN(parseFloat(result.childElemRatio))
-        ? parseFloat(result.childElemRatio.replace(",", ".")) / 100
-        : 0.02;
-      childElemRatio = parseInt($("body").find("*").length * percentage);
+  chrome.storage.sync.get("childElemRatio", function (result) {
+    let percentage = !isNaN(parseFloat(result.childElemRatio))
+      ? parseFloat(result.childElemRatio.replace(",", ".")) / 100
+      : 0.02;
+    childElemRatio = parseInt($("body").find("*").length * percentage);
+
+    elemType.forEach((tag) => {
       if (tag.querySelectorAll("*").length < childElemRatio) {
         // How many child elements are allowed
         let elemExist = setInterval(function () {
