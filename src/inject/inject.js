@@ -1,6 +1,6 @@
 // Tags that will be checked for keywords
 const ELEM_TAGS =
-  "em, h1, h2, h3, h4, h5, h6, span, b, a, p, li, article, strong, blockquote, div, th, td, img";
+  "em, h1, h2, h3, h4, h5, h6, span, b, a, p, ul, li, article, strong, blockquote, div, th, td, img";
 
 const config = {
   percentage: 0,
@@ -138,7 +138,7 @@ function checkAllElems(wordlist, testingMode, elem) {
     elemType =
       elem.parentElement != undefined
         ? elem.parentElement.querySelectorAll(ELEM_TAGS)
-        : elem.querySelectorAll(ELEM_TAGS);
+        : elem;
   } else elemType = document.querySelectorAll(elem);
 
   childElemRatio = parseInt(document.querySelectorAll("*").length * config.percentage);
@@ -270,7 +270,7 @@ function runningStatus(elem) {
               if (addedNode[b].nodeType != 1) continue;
               let node = addedNode[b];
               if (node.children.length) {
-                runningStatus(node);
+                runningStatus(node.querySelectorAll(ELEM_TAGS));
               }
           }
       }
