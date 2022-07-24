@@ -81,17 +81,13 @@ function hideElem(elem, word) {
       // If "Reveal on hover" -setting is checked, remove blur on mouse hover
       elem.addEventListener("mouseover", () => {
         timeOut = setTimeout(() => {
-          Object.assign(elem.style, {
-            filter: "blur(0px)",
-          });
-        }, 500);
+          elem.style.filter = "blur(0px)"
+        }, 300);
       });
       elem.addEventListener("mouseleave", () => {
         // Blur element again on mouseleave
         clearTimeout(timeOut);
-        Object.assign(elem.style, {
-          filter: "blur(10px)",
-        });
+        elem.style.filter = "blur(10px)"
       });
     } else {
       // If "hover to reveal" -option is unchecked, show which keywords were found on the element onhover
@@ -145,14 +141,11 @@ function checkAllElems(wordlist, testingMode, elem) {
         : elem.querySelectorAll(ELEM_TAGS);
   } else elemType = document.querySelectorAll(elem);
 
-  childElemRatio = parseInt($("body").find("*").length * config.percentage);
+  childElemRatio = parseInt(document.querySelectorAll("*").length * config.percentage);
 
   elemType.forEach((tag) => {
     if (tag.querySelectorAll("*").length < childElemRatio) {
       // How many child elements are allowed
-      let elemExist = setInterval(function () {
-        if (tag != null) clearInterval(elemExist);
-      }, 100);
       for (word in wordlist) {
         /* Keyword cannot be empty. 
                 '//' starts a comment line and can be ignored. */
