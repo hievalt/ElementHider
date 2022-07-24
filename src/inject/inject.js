@@ -263,17 +263,14 @@ function runningStatus(elem) {
  *  Only checks new or changed elements on the webpage
  */
  function Observer() {
-  var observer = new MutationObserver(function(mutation) {
-      for (var a = 0; a < mutation.length; a++) {
-          var addedNode = mutation[a].addedNodes;
-          for (var b = 0; b < addedNode.length; b++) {
+  let observer = new MutationObserver(function(mutation) {
+      for (let a = 0; a < mutation.length; a++) {
+          let addedNode = mutation[a].addedNodes;
+          for (let b = 0; b < addedNode.length; b++) {
               if (addedNode[b].nodeType != 1) continue;
-              var node = addedNode[b];
+              let node = addedNode[b];
               if (node.children.length) {
-                  var nodes = node.getElementsByTagName('div');
-                  for (var c = 0; c < nodes.length; c++) {
-                      runningStatus(nodes[c]);
-                  }
+                runningStatus(node);
               }
           }
       }

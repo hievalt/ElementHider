@@ -6,8 +6,7 @@
       href="https://fonts.googleapis.com/css?family=Roboto:100,400|Source+Sans+Pro:200"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/popup.css">
-    
+    <link rel="stylesheet" href="./css/popup.css" />
   </head>
 
   <body>
@@ -27,11 +26,10 @@
         id="keywords"
         placeholder="Separate 
 keywords
-with a new line">
+with a new line"
+      >
       </textarea>
       <p id="maxCharError"></p>
-      <br />
-      <br />
       <button id="save-btn">Save changes</button>
       <input type="checkbox" id="toggle" /><label id="onoff">Off</label>
       <label
@@ -40,23 +38,35 @@ with a new line">
       >
         <input type="checkbox" id="toggleTesting" /> Testing mode</label
       >
-      <br />
-      <p id="help">Show keyword examples</p>
-      <p id="examples">
+      <br/>
+      <div id="help">Hide keyword examples</div>
+      <hr />
+      <div id="examples">
         <br />
         <strong>Keyword</strong> = case-sensitive, can be anywhere in the text
+        <br />
         <br />
         <strong>*Keyword</strong> = case-sensitive, has to be exactly the same
         on the webpage
         <br />
+        <br />
         <strong>Keyword^</strong> = case-insensitive, can be anywhere in the
         text
         <br />
+        <br />
         <strong>*Keyword^</strong> = matches Keyword OR keyword
+        <br />
+        <br />
+        <strong>Keyword >>> url.com</strong> if you want keyword only to work on
+        specific site you can include >>> + part of the url (e.g. "keyword >>>
+        twitter.com" would only work on websites that contain twitter.com in the
+        url)
+        <br />
         <br />
         <strong>{css selector}</strong> = hides elements that apply to the css
         selector. For example {.class} {#id-element} <br />
-        // Two slashes starts a comment line
+        <br />
+        <strong>//</strong> Two slashes starts a comment line
         <br />
         <br />
         <strong
@@ -66,7 +76,7 @@ with a new line">
             it.</i
           ></strong
         >
-      </p>
+      </div>
     </div>
     <script type="text/javascript" src="popup.js"></script>
   </body>

@@ -77,25 +77,22 @@ body {
 #help,
 #openKeywords {
   font-size: 13px;
-  cursor: pointer;
   margin-bottom: 5px;
   text-align: center;
+  cursor: pointer;
 }
 
-#help,
 #openKeywords {
   color: gray;
 }
 
-#help:hover,
 #openKeywords:hover {
   color: black;
 }
 
 #examples {
-  margin-top: 10px;
-  display: none;
-  font-size: 13px;
+  font-size: 14px;
+  overflow-y: auto;
 }
 
 #logo,

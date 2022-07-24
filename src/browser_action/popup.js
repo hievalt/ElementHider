@@ -9,12 +9,11 @@ function SaveWords() {
         $("#maxCharError").text("");
       },
       (e) => {
-        chrome.storage.sync.get("words").then((savedWords) => {
-          chrome.storage.sync.getBytesInUse().then((res) => {
-            let used = res,
+        chrome.storage.sync.get().then((savedWords) => {
+          chrome.storage.sync.getBytesInUse(Object.keys(savedWords).filter(val => val != "words")).then(() => {
+            let max_sync_bytes = chrome.storage.sync.QUOTA_BYTES_PER_ITEM,
               wordSize = new Blob([savedWords.words]).size,
-              availableBytes =
-                chrome.storage.sync.QUOTA_BYTES_PER_ITEM - (used - wordSize);
+              availableBytes = max_sync_bytes - (max_sync_bytes - wordSize);
             $("#maxCharError").text(
               "Maximum character amount exceeded! Keywords cannot be saved while character limit is not met. (" +
                 new Blob([currentWords]).size +
@@ -94,9 +93,9 @@ function Unsaved() {
 }
 
 function showExamples() {
-  if (document.getElementById("help").innerText == "Show keyword examples") {
-    $("#examples").fadeIn(500);
-    $("#help").text("Hide keyword examples");
+  if (document.getElementById("help").innerHTML === "Show keyword examples") {
+    $("#examples").slideDown(500);
+    document.getElementById("help").innerHTML = "Hide keyword examples";
     $("body").animate(
       {
         scrollTop: $(document).height() - $(window).height(),
@@ -106,7 +105,7 @@ function showExamples() {
     );
   } else {
     $("#examples").slideUp(500);
-    $("#help").text("Show keyword examples");
+    document.getElementById("help").innerHTML = "Show keyword examples";
   }
 }
 
@@ -137,10 +136,10 @@ $(document).ready(function () {
   $("#optionsIcon").bind("click", showOptions);
   // Animations
   $("#logo").slideDown(250);
-  $("#logoLine").fadeIn(2500);
-  $("#wordLine").fadeIn(1000);
-  $("#keywords").fadeIn(1000);
-  $("#onoff").fadeIn(1200);
-  $("#testingMode").fadeIn(1200);
-  $("#help").fadeIn(2000);
+  $("#logoLine").fadeIn(1500);
+  $("#wordLine").fadeIn(500);
+  $("#keywords").fadeIn(500);
+  $("#onoff").fadeIn(500);
+  $("#testingMode").fadeIn(500);
+  $("#help").fadeIn(500);
 });

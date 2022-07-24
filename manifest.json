@@ -31,7 +31,7 @@
                 "*://*/*"
             ],
             "js": [
-                "js/jquery/jquery.js",
+                "src/browser_action/jquery.min.js",
                 "src/inject/inject.js"
             ]
         }
