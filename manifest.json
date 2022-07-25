@@ -1,6 +1,6 @@
 {
     "name": "ElementHider",
-    "version": "0.2.22",
+    "version": "0.2.23",
     "manifest_version": 3,
     "description": "Hides elements that contain keywords set by user",
     "homepage_url": "https://chrome.google.com/webstore/detail/elemhide/jnbamieaacddlfcoanmbkclnpoafhmie",

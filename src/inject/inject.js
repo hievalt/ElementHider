@@ -29,7 +29,7 @@ const initConfig = () => {
     (result) => {
       config.percentage = !isNaN(parseFloat(result.childElemRatio))
         ? parseFloat(result.childElemRatio.replace(",", ".")) / 100
-        : 0.006;
+        : 0.02;
       config.blurOption = result.blurOption;
       config.hoveringOption = result.hoveringOption;
       config.testingMode = result.testingMode;

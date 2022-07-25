@@ -15,7 +15,7 @@ function loadData() {
       result.childElemRatio != undefined
         ? (document.querySelector("#childElemRatio").value =
             result.childElemRatio)
-        : (document.querySelector("#childElemRatio").value = "0.6");
+        : (document.querySelector("#childElemRatio").value = "2");
       document.querySelector("#blurred").checked = result.blurOption;
       if (document.querySelector("#blurred").checked)
         document.querySelector("#hoveringOption").style.display = "inline-block";
