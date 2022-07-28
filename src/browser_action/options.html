@@ -13,6 +13,7 @@
   <body>
     <h1 id="logo">Options</h1>
     <hr id="logoLine" style="width: 180px" />
+    <b><label>Blur options</label></b>
     <label id="blurOption">
       <input type="checkbox" id="blurred" /> Blur elements instead of hiding
     </label>
@@ -20,19 +21,21 @@
       <input type="checkbox" id="hovering" /> Hover on blurred elements to show
       them
     </label>
-    <br />
-    <br />
     <hr />
-    <label
+    <br />
+    <b><label
       title="Element with the keyword can contain % of all the elements on the page. Smaller value = more precise hiding but might only hide the text and not the whole social media post etc. Larger value = more likely to hide the keyword element and also nearest parent elements."
-      >Child element ratio <br />
+      >Child element ratio</label></b>
+      <label
+      title="Element with the keyword can contain % of all the elements on the page. Smaller value = more precise hiding but might only hide the text and not the whole social media post etc. Larger value = more likely to hide the keyword element and also nearest parent elements."
+      >
       (affects on how many elements can be contained by the element to be
-      hidden)<br />
+      hidden)</label>
       <input id="childElemRatio" type="text" placeholder="1.6" /> %
     </label>
     <hr />
     <br />
-    <br />
+    <b><label>Global site settings</label></b>
     <label class="radios">
       <input class="radios" type="radio" name="option" id="disabler" checked />
       Disable ElementHider on websites that include any of the following strings
@@ -47,15 +50,15 @@
     >
     <br />
     <br />
+    <p id="tip">
+      ( Leave textbox blank if you want ElementHider to hide elements on all
+      websites. )
+    </p>
     <textarea
       id="urls"
       placeholder="For example: youtube.com 
 Separate urls/strings with new line "
     ></textarea>
-    <p id="tip">
-      Leave textbox blank if you want ElementHider to hide elements on all
-      websites.
-    </p>
     <br />
     <br />
     <a
