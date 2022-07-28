@@ -1,5 +1,5 @@
 function loadData() {
-    chrome.storage.sync.get(['words'], function(result) {
+    browser.storage.sync.get(['words'], function(result) {
         if (result.words != '        ' || undefined) $('#keywords').val(result.words);
         else $('#keywords').value = '';
     })
@@ -8,13 +8,13 @@ function loadData() {
 function SaveWords() {
     var words = $('#keywords').val();
     console.log(words);
-    chrome.storage.sync.set({
+    browser.storage.sync.set({
         "words": words
     });
 }
 
 function Unsaved() {
-    chrome.storage.sync.get('words', function(result) {
+    browser.storage.sync.get('words', function(result) {
         if ($('#keywords').val() != result.words) SaveWords();
 
     });

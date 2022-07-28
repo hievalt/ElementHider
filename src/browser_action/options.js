@@ -1,12 +1,12 @@
 function SaveUrls() {
   let urls = document.querySelector("#urls").value;
-  chrome.storage.sync.set({
+  browser.storage.sync.set({
     urls: urls,
   });
 }
 
 function loadData() {
-  chrome.storage.sync.get(
+  browser.storage.sync.get(
     ["urlRule", "urls", "blurOption", "hoveringOption", "childElemRatio"],
     function (result) {
       result.urls != undefined
@@ -15,7 +15,7 @@ function loadData() {
       result.childElemRatio != undefined
         ? (document.querySelector("#childElemRatio").value =
             result.childElemRatio)
-        : (document.querySelector("#childElemRatio").value = "2");
+        : (document.querySelector("#childElemRatio").value = "");
       document.querySelector("#blurred").checked = result.blurOption;
       if (document.querySelector("#blurred").checked)
         document.querySelector("#hoveringOption").style.display = "inline-block";
@@ -30,7 +30,7 @@ function loadData() {
 }
 
 function Unsaved() {
-  chrome.storage.sync.get("urls", function (result) {
+  browser.storage.sync.get("urls", function (result) {
     if (document.querySelector("#urls").value != result.urls) {
       SaveUrls();
     }
@@ -39,21 +39,21 @@ function Unsaved() {
 
 function disablerRadio() {
   let rule = document.querySelector("#disabler").checked;
-  chrome.storage.sync.set({
+  browser.storage.sync.set({
     urlRule: rule,
   });
 }
 
 function enablerRadio() {
   let rule = document.querySelector("#disabler").checked;
-  chrome.storage.sync.set({
+  browser.storage.sync.set({
     urlRule: rule,
   });
 }
 
 function saveBlurOption() {
   let blurred = document.querySelector("#blurred").checked;
-  chrome.storage.sync.set({
+  browser.storage.sync.set({
     blurOption: blurred,
   });
   if (document.querySelector("#blurred").checked)
@@ -63,14 +63,14 @@ function saveBlurOption() {
 
 function saveHoveringOption() {
   let hovering = document.querySelector("#hovering").checked;
-  chrome.storage.sync.set({
+  browser.storage.sync.set({
     hoveringOption: hovering,
   });
 }
 
 function setChildElemRatio() {
   let ratio = document.querySelector("#childElemRatio").value;
-  chrome.storage.sync.set({
+  browser.storage.sync.set({
     childElemRatio: ratio,
   });
 }

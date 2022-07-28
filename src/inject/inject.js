@@ -15,7 +15,7 @@ const config = {
 };
 
 const initConfig = () => {
-  chrome.storage.sync.get(
+  browser.storage.sync.get(
     [
       "childElemRatio",
       "blurOption",
@@ -296,7 +296,7 @@ $(window).ready(function () {
 
 // Check all elements if url has been changed
 // For websites that load new entire pages with ajax (like youtube.com)
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.greeting === "urlChange") {
     runningStatus(ELEM_TAGS);
   }
