@@ -7,7 +7,14 @@ function SaveUrls() {
 
 function loadData() {
   chrome.storage.sync.get(
-    ["urlRule", "urls", "blurOption", "hoveringOption", "childElemRatio"],
+    [
+      "urlRule",
+      "urls",
+      "blurOption",
+      "hoveringOption",
+      "childElemRatio",
+      "childElemRatioMin",
+    ],
     function (result) {
       result.urls != undefined
         ? (document.querySelector("#urls").value = result.urls)
@@ -15,12 +22,16 @@ function loadData() {
       result.childElemRatio != undefined
         ? (document.querySelector("#childElemRatio").value =
             result.childElemRatio)
-        : (document.querySelector("#childElemRatio").value = "2");
+        : (document.querySelector("#childElemRatio").value = "1.6");
+      result.childElemRatioMin != undefined
+        ? (document.querySelector("#childElemRatioMin").value =
+            result.childElemRatioMin)
+        : (document.querySelector("#childElemRatioMin").value = "25");
       document.querySelector("#blurred").checked = result.blurOption;
       if (document.querySelector("#blurred").checked)
-        document.querySelector("#hoveringOption").style.display = "inline-block";
-      else
-        document.querySelector("#hoveringOption").style.display = "none";
+        document.querySelector("#hoveringOption").style.display =
+          "inline-block";
+      else document.querySelector("#hoveringOption").style.display = "none";
       document.querySelector("#hovering").checked = result.hoveringOption;
       if (result.urlRule)
         document.querySelector("#disabler").checked = result.urlRule;
@@ -75,20 +86,27 @@ function setChildElemRatio() {
   });
 }
 
+function setChildElemRatioMin() {
+  let ratio = document.querySelector("#childElemRatioMin").value;
+  chrome.storage.sync.set({
+    childElemRatioMin: ratio,
+  });
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
   loadData();
   document.querySelector("#urls").addEventListener("change", Unsaved);
-  document
-    .querySelector("#blurred")
-    .addEventListener("change", saveBlurOption);
+  document.querySelector("#blurred").addEventListener("change", saveBlurOption);
   document
     .querySelector("#hovering")
     .addEventListener("change", saveHoveringOption);
+  document.querySelector("#disabler").addEventListener("change", disablerRadio);
+  document.querySelector("#enabler").addEventListener("change", enablerRadio);
   document
-    .querySelector("#disabler")
-    .addEventListener("change", disablerRadio);
-  document.querySelector("#enabler")
-  .addEventListener("change", enablerRadio);
-  document.querySelector("#childElemRatio")
-  .addEventListener("change", setChildElemRatio);
+    .querySelector("#childElemRatio")
+    .addEventListener("change", setChildElemRatio);
+  document
+    .querySelector("#childElemRatioMin")
+    .addEventListener("change", setChildElemRatioMin);
 });

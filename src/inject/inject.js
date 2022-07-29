@@ -12,12 +12,14 @@ const config = {
   urls: 0,
   enabled: 0,
   observer: 0,
+  childElemRatioMin: 0,
 };
 
 const initConfig = () => {
   chrome.storage.sync.get(
     [
       "childElemRatio",
+      "childElemRatioMin",
       "blurOption",
       "hoveringOption",
       "testingMode",
@@ -30,6 +32,9 @@ const initConfig = () => {
       config.percentage = !isNaN(parseFloat(result.childElemRatio))
         ? parseFloat(result.childElemRatio.replace(",", ".")) / 100
         : 0.016;
+      config.childElemRatioMin = !isNaN(parseInt(result.childElemRatioMin))
+        ? parseInt(result.childElemRatioMin)
+        : 25;
       config.blurOption = result.blurOption;
       config.hoveringOption = result.hoveringOption;
       config.testingMode = result.testingMode;
@@ -81,13 +86,13 @@ function hideElem(elem, word) {
       // If "Reveal on hover" -setting is checked, remove blur on mouse hover
       elem.addEventListener("mouseover", () => {
         timeOut = setTimeout(() => {
-          elem.style.filter = "blur(0px)"
+          elem.style.filter = "blur(0px)";
         }, 300);
       });
       elem.addEventListener("mouseleave", () => {
         // Blur element again on mouseleave
         clearTimeout(timeOut);
-        elem.style.filter = "blur(10px)"
+        elem.style.filter = "blur(10px)";
       });
     } else {
       // If "hover to reveal" -option is unchecked, show which keywords were found on the element onhover
@@ -141,7 +146,6 @@ function checkAllElems(wordlist, testingMode, elem) {
         : elem;
   } else elemType = document.querySelectorAll(elem);
 
-  childElemRatio = parseInt(document.querySelectorAll("*").length * config.percentage);
 
   elemType.forEach((tag) => {
     if (tag.querySelectorAll("*").length < childElemRatio) {
@@ -262,18 +266,18 @@ function runningStatus(elem) {
  *  Mutation observer to observe new or changed elements (mainly for ajax created content, better performance)
  *  Only checks new or changed elements on the webpage
  */
- function Observer() {
-  let observer = new MutationObserver(function(mutation) {
-      for (let a = 0; a < mutation.length; a++) {
-          let addedNode = mutation[a].addedNodes;
-          for (let b = 0; b < addedNode.length; b++) {
-              if (addedNode[b].nodeType != 1) continue;
-              let node = addedNode[b];
-              if (node.children.length) {
-                runningStatus(node.querySelectorAll(ELEM_TAGS));
-              }
-          }
+function Observer() {
+  let observer = new MutationObserver(function (mutation) {
+    for (let a = 0; a < mutation.length; a++) {
+      let addedNode = mutation[a].addedNodes;
+      for (let b = 0; b < addedNode.length; b++) {
+        if (addedNode[b].nodeType != 1) continue;
+        let node = addedNode[b];
+        if (node.children.length) {
+          runningStatus(node.querySelectorAll(ELEM_TAGS));
+        }
       }
+    }
   });
 
   // Mutation observer conf
