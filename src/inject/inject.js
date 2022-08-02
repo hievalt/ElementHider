@@ -146,6 +146,7 @@ function checkAllElems(wordlist, testingMode, elem) {
         : elem;
   } else elemType = document.querySelectorAll(elem);
 
+  let childElemRatio = parseInt(document.querySelectorAll("*").length * config.percentage);
 
   elemType.forEach((tag) => {
     if (tag.querySelectorAll("*").length < childElemRatio) {
@@ -274,7 +275,10 @@ function Observer() {
         if (addedNode[b].nodeType != 1) continue;
         let node = addedNode[b];
         if (node.children.length) {
-          runningStatus(node.querySelectorAll(ELEM_TAGS));
+          let nodes = node.getElementsByTagName("div");
+          for (let c = 0; c < nodes.length; c++) {
+            runningStatus(nodes[c]);
+          }
         }
       }
     }
