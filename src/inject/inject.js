@@ -13,6 +13,7 @@ const config = {
   enabled: 0,
   observer: 0,
   childElemRatioMin: 0,
+  childElemRatio: 0,
 };
 
 const initConfig = () => {
@@ -35,6 +36,8 @@ const initConfig = () => {
       config.childElemRatioMin = !isNaN(parseInt(result.childElemRatioMin))
         ? parseInt(result.childElemRatioMin)
         : 25;
+      config.childElemRatio = parseInt(document.querySelectorAll("*").length * config.percentage)
+      config.childElemRatio >= config.childElemRatioMin ? config.childElemRatio : config.childElemRatioMin;
       config.blurOption = result.blurOption;
       config.hoveringOption = result.hoveringOption;
       config.testingMode = result.testingMode;
@@ -146,14 +149,10 @@ function checkAllElems(wordlist, testingMode, elem) {
         : elem;
   } else elemType = document.querySelectorAll(elem);
 
-  let childElemRatio = parseInt(
-    document.querySelectorAll("*").length * config.percentage
-  );
-  
-  if (childElemRatio < config.childElemRatioMin) childElemRatio = config.childElemRatioMin;
+  console.log(config.childElemRatio);
 
   elemType.forEach((tag) => {
-    if (tag.querySelectorAll("*").length < childElemRatio) {
+    if (tag.querySelectorAll("*").length < config.childElemRatio) {
       // How many child elements are allowed
       for (word in wordlist) {
         /* Keyword cannot be empty. 
