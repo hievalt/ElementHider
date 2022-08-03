@@ -32,12 +32,12 @@ const initConfig = () => {
     (result) => {
       config.percentage = !isNaN(parseFloat(result.childElemRatio))
         ? parseFloat(result.childElemRatio.replace(",", ".")) / 100
-        : 0.016;
+        : 0.01;
       config.childElemRatioMin = !isNaN(parseInt(result.childElemRatioMin))
         ? parseInt(result.childElemRatioMin)
         : 25;
       config.childElemRatio = parseInt(document.querySelectorAll("*").length * config.percentage)
-      config.childElemRatio >= config.childElemRatioMin ? config.childElemRatio : config.childElemRatioMin;
+      config.childElemRatio = config.childElemRatio >= config.childElemRatioMin ? config.childElemRatio : config.childElemRatioMin;
       config.blurOption = result.blurOption;
       config.hoveringOption = result.hoveringOption;
       config.testingMode = result.testingMode;
@@ -148,8 +148,6 @@ function checkAllElems(wordlist, testingMode, elem) {
         ? elem.parentElement.querySelectorAll(ELEM_TAGS)
         : elem;
   } else elemType = document.querySelectorAll(elem);
-
-  console.log(config.childElemRatio);
 
   elemType.forEach((tag) => {
     if (tag.querySelectorAll("*").length < config.childElemRatio) {
