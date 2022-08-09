@@ -22,7 +22,7 @@ function loadData() {
       result.childElemRatio != undefined
         ? (document.querySelector("#childElemRatio").value =
             result.childElemRatio)
-        : (document.querySelector("#childElemRatio").value = "1");
+        : (document.querySelector("#childElemRatio").value = "1.6");
       result.childElemRatioMin != undefined
         ? (document.querySelector("#childElemRatioMin").value =
             result.childElemRatioMin)

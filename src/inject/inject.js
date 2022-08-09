@@ -1,6 +1,6 @@
 // Tags that will be checked for keywords
 const ELEM_TAGS =
-  "em, h1, h2, h3, h4, h5, h6, span, b, a, p, ul, li, article, strong, blockquote, div, th, td, img";
+  "em, h1, h2, h3, h4, h5, h6, span, b, a, p, li, article, strong, blockquote, div, th, td, img";
 
 const config = {
   percentage: 0,
@@ -32,12 +32,17 @@ const initConfig = () => {
     (result) => {
       config.percentage = !isNaN(parseFloat(result.childElemRatio))
         ? parseFloat(result.childElemRatio.replace(",", ".")) / 100
-        : 0.01;
+        : 0.016;
       config.childElemRatioMin = !isNaN(parseInt(result.childElemRatioMin))
         ? parseInt(result.childElemRatioMin)
         : 25;
-      config.childElemRatio = parseInt(document.querySelectorAll("*").length * config.percentage)
-      config.childElemRatio = config.childElemRatio >= config.childElemRatioMin ? config.childElemRatio : config.childElemRatioMin;
+      config.childElemRatio = parseInt(
+        document.querySelectorAll("*").length * config.percentage
+      );
+      config.childElemRatio =
+        config.childElemRatio >= config.childElemRatioMin
+          ? config.childElemRatio
+          : config.childElemRatioMin;
       config.blurOption = result.blurOption;
       config.hoveringOption = result.hoveringOption;
       config.testingMode = result.testingMode;
@@ -53,25 +58,22 @@ const initConfig = () => {
 };
 
 /**
- * testElem
- * Testmode, highlights elements with green border
- * @param  Element elem - element to be handled
- 
- */
+   * testElem
+   * Testmode, highlights elements with green border
+   * @param  Element elem - element to be handled
+   
+   */
 function testElem(elem, word) {
-  Object.assign(elem.style, {
+  elem.css({
     border: "solid",
     "border-color": "lime",
     "border-width": "2px",
   });
-  if (
-    elem.getAttribute("title") === undefined ||
-    elem.getAttribute("title") === null
-  )
-    elem.setAttribute("title", "Keywords found: " + word);
-  else if (!elem.getAttribute("title").includes("Keywords found:"))
-    elem.setAttribute("title", "Keyword found: " + word);
-  else elem.setAttribute("title", elem.getAttribute("title") + ", " + word);
+  if (elem.attr("title") == undefined)
+    elem.attr("title", "Keywords found: " + word);
+  else if (!elem.attr("title").includes("Keywords found:"))
+    elem.attr("title", "Keyword found: " + word);
+  else elem.attr("title", elem.attr("title") + ", " + word);
 }
 
 /**
@@ -81,35 +83,38 @@ function testElem(elem, word) {
  */
 function hideElem(elem, word) {
   if (config.blurOption) {
-    Object.assign(elem.style, {
+    elem.css({
       filter: "blur(10px)",
     });
     let timeOut;
     if (config.hoveringOption) {
       // If "Reveal on hover" -setting is checked, remove blur on mouse hover
-      elem.addEventListener("mouseover", () => {
-        timeOut = setTimeout(() => {
-          elem.style.filter = "blur(0px)";
-        }, 300);
-      });
-      elem.addEventListener("mouseleave", () => {
-        // Blur element again on mouseleave
-        clearTimeout(timeOut);
-        elem.style.filter = "blur(10px)";
-      });
+      elem.hover(
+        function () {
+          timeOut = setTimeout(function () {
+            elem.css({
+              filter: "blur(0px)",
+            });
+          }, 500);
+        },
+        function () {
+          // Blur element again on mouseleave
+          clearTimeout(timeOut);
+          elem.css({
+            filter: "blur(10px)",
+          });
+        }
+      );
     } else {
       // If "hover to reveal" -option is unchecked, show which keywords were found on the element onhover
-      if (
-        elem.getAttribute("title") === undefined ||
-        elem.getAttribute("title") === null
-      )
-        elem.setAttribute("title", "Keywords found: " + word);
-      else if (!elem.getAttribute("title").includes("Keywords found:"))
-        elem.setAttribute("title", "Keyword found: " + word);
-      else elem.setAttribute("title", elem.getAttribute("title") + ", " + word);
+      if (elem.attr("title") == undefined)
+        elem.attr("title", "Keywords found: " + word);
+      else if (!elem.attr("title").includes("Keywords found:"))
+        elem.attr("title", "Keyword found: " + word);
+      else elem.attr("title", elem.attr("title") + ", " + word);
     }
   } else {
-    elem.style.display = "none";
+    elem.hide();
   }
 }
 
@@ -143,15 +148,15 @@ function hideViaSelector(selector, testingMode) {
 function checkAllElems(wordlist, testingMode, elem) {
   let elemType;
   if (elem != ELEM_TAGS) {
-    elemType =
-      elem.parentElement != undefined
-        ? elem.parentElement.querySelectorAll(ELEM_TAGS)
-        : elem;
-  } else elemType = document.querySelectorAll(elem);
+    elemType = $(elem).parent().parent(ELEM_TAGS);
+  } else elemType = $(elem);
 
-  elemType.forEach((tag) => {
-    if (tag.querySelectorAll("*").length < config.childElemRatio) {
+  elemType.each(function () {
+    if ($(this).find("*").length < config.childElemRatio) {
       // How many child elements are allowed
+      let elemExist = setInterval(function () {
+        if ($(this) != null) clearInterval(elemExist);
+      }, 100);
       for (word in wordlist) {
         /* Keyword cannot be empty. 
                 '//' starts a comment line and can be ignored. */
@@ -165,56 +170,56 @@ function checkAllElems(wordlist, testingMode, elem) {
             url === null
           ) {
             // Keyword is {css selector}
-            if (word.slice(0, 1) === "{" && word.slice(-1) === "}")
+            if (word.slice(0, 1) == "{" && word.slice(-1) == "}")
               hideViaSelector(
-                document.querySelector(word.replace("{", "").replace("}", "")),
+                $(word.replace("{", "").replace("}", "")),
                 testingMode
               );
 
             // If word has to be exactly in the given format but special characters can follow
-            if (word.slice(0, 1) === "*") {
+            if (word.slice(0, 1) == "*") {
               // Remove * from the keyword
               word = word.slice(1).trim();
 
               // If keyword has to be exact but is case-insensitive
-              if (word.slice(-1) === "^") {
+              if (word.slice(-1) == "^") {
                 word = word.slice(0, -1);
                 if (
-                  new RegExp("\\b" + word + "\\b", "gi").test(tag.innerText) &&
-                  tag.style.display != "none"
+                  new RegExp("\\b" + word + "\\b", "gi").test($(this).text()) &&
+                  $(this).css("display") != "none"
                 ) {
-                  if (!testingMode) hideElem(tag, word);
-                  else testElem(tag, word);
+                  if (!testingMode) hideElem($(this), word);
+                  else testElem($(this), word);
                 }
                 // If keyword has to be exact and case-sensitive
               } else {
                 if (
-                  new RegExp("\\b" + word + "\\b", "g").test(tag.innerText) &&
-                  tag.style.display != "none"
+                  new RegExp("\\b" + word + "\\b", "g").test($(this).text()) &&
+                  $(this).css("display") != "none"
                 ) {
-                  if (!testingMode) hideElem(tag, word);
-                  else testElem(tag, word);
+                  if (!testingMode) hideElem($(this), word);
+                  else testElem($(this), word);
                 }
               }
               // If word is case-insensitive
-            } else if (word.slice(-1) === "^") {
+            } else if (word.slice(-1) == "^") {
               word = word.slice(0, -1).trim();
               if (
-                new RegExp(word, "gi").test(tag.innerText) &&
-                tag.style.display != "none"
+                new RegExp(word, "gi").test($(this).text()) &&
+                $(this).css("display") != "none"
               ) {
-                if (!testingMode) hideElem(tag, word);
-                else testElem(tag, word);
+                if (!testingMode) hideElem($(this), word);
+                else testElem($(this), word);
               }
               // Word is case-sensitive and it can appear anywhere in the text.
             } else {
               word = word.trim();
               if (
-                new RegExp(word, "g").test(tag.innerText) &&
-                tag.style.display != "none"
+                new RegExp(word, "g").test($(this).text()) &&
+                $(this).css("display") != "none"
               ) {
-                if (!testingMode) hideElem(tag, word);
-                else testElem(tag, word);
+                if (!testingMode) hideElem($(this), word);
+                else testElem($(this), word);
               }
             }
           }
@@ -276,7 +281,10 @@ function Observer() {
         if (addedNode[b].nodeType != 1) continue;
         let node = addedNode[b];
         if (node.children.length) {
-          runningStatus(node.querySelectorAll(ELEM_TAGS));
+          let nodes = node.getElementsByTagName("*");
+          for (let c = 0; c < nodes.length; c++) {
+            runningStatus(nodes[c]);
+          }
         }
       }
     }
