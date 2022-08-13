@@ -1,0 +1,59 @@
+body {
+  text-align: center;
+  min-width: 600px;
+  overflow: auto;
+}
+
+#logo {
+  font-size: 26px;
+}
+
+#logoLine {
+  margin-bottom: 25px;
+}
+
+label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 1%;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  font-size: 14px;
+  white-space: pre;
+  border-right: none;
+  border-left: none;
+  resize: none;
+  border-color: black;
+}
+
+#logo,
+#logoLine {
+  display: none;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+
+#urls,
+#blurOption,
+#tip {
+  display: block;
+}
+
+.radios {
+  display: inline;
+}
+
+#hoveringOption {
+  display: none;
+}
+
+#tip {
+  font-size: 13.5px;
+}
+
+#childElemRatio {
+  width: 10%;
+}

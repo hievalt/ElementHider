@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,400|Source+Sans+Pro:200"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/popup.css" />
+  </head>
+
+  <body>
+    <div id="mainPopup">
+      <img id="optionsIcon" src="options.png" />
+      <center>
+        <h1 id="logo">ElementHider</h1>
+        <hr id="logoLine" style="width: 180px" />
+      </center>
+      <br />
+      <div id="wordLine">
+        <h2 id="subLogo">Keywords:</h2>
+        <a id="openKeywords">&#8599; Open in editor</a>
+      </div>
+      <br />
+      <textarea
+        id="keywords"
+        placeholder="Separate 
+keywords
+with a new line"
+      >
+      </textarea>
+      <p id="maxCharError"></p>
+      <button id="save-btn">Save changes</button>
+      <input type="checkbox" id="toggle" /><label id="onoff">Off</label>
+      <label
+        id="testingMode"
+        title="Highlights elements instead of hiding to see the effects of keywords."
+      >
+        <input type="checkbox" id="toggleTesting" /> Testing mode</label
+      >
+      <br/>
+      <div id="help">Hide keyword examples</div>
+      <hr />
+      <div id="examples">
+        <br />
+        <strong>Keyword</strong> = case-sensitive, can be anywhere in the text
+        <br />
+        <br />
+        <strong>*Keyword</strong> = case-sensitive, has to be exactly the same
+        on the webpage
+        <br />
+        <br />
+        <strong>Keyword^</strong> = case-insensitive, can be anywhere in the
+        text
+        <br />
+        <br />
+        <strong>*Keyword^</strong> = matches Keyword OR keyword
+        <br />
+        <br />
+        <strong>Keyword >>> url.com</strong> if you want keyword only to work on
+        specific site you can include >>> + part of the url (e.g. "keyword >>>
+        twitter.com" would only work on websites that contain twitter.com in the
+        url)
+        <br />
+        <br />
+        <strong>{css selector}</strong> = hides elements that apply to the css
+        selector. For example {.class} {#id-element} <br />
+        <br />
+        <strong>//</strong> Two slashes starts a comment line
+        <br />
+        <br />
+        <strong
+          ><i
+            >Use Testing mode to easily observe the effects on the webpage.
+            Hover on highlighted element to see which keyword was found on
+            it.</i
+          ></strong
+        >
+      </div>
+    </div>
+    <script type="text/javascript" src="popup.js"></script>
+  </body>
+</html>

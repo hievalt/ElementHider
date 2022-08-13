@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <script src="jquery.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,400|Source+Sans+Pro:200"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/options.css" />
+    <script type="text/javascript" src="options.js"></script>
+    <title>ElementHider Options</title>
+  </head>
+
+  <body>
+    <h1 id="logo">Options</h1>
+    <hr id="logoLine" style="width: 180px" />
+    <b><label>Blur options</label></b>
+    <label id="blurOption">
+      <input type="checkbox" id="blurred" /> Blur elements instead of hiding
+    </label>
+    <label id="hoveringOption">
+      <input type="checkbox" id="hovering" /> Hover on blurred elements to show
+      them
+    </label>
+    <hr />
+    <br />
+    <b><label
+      title="Element with the keyword can contain % of all the elements on the page. Smaller value = more precise hiding but might only hide the text and not the whole social media post etc. Larger value = more likely to hide the keyword element and also nearest parent elements."
+      >Child element ratio</label></b>
+      <label
+      title="Element with the keyword can contain % of all the elements on the page. Smaller value = more precise hiding but might only hide the text and not the whole social media post etc. Larger value = more likely to hide the keyword element and also nearest parent elements."
+      >
+      (affects on how many elements can be contained by the element to be
+      hidden)</label>
+      <input id="childElemRatio" type="text" placeholder="1.6" /> %
+    </label>
+    <br />
+    <label>
+      Minimum child elements
+    </label>
+      <input id="childElemRatioMin" type="text" placeholder="25" /> elements
+    <hr />
+    <br />
+    <b><label>Global site settings</label></b>
+    <label class="radios">
+      <input class="radios" type="radio" name="option" id="disabler" checked />
+      Disable ElementHider on websites that include any of the following strings
+      in the url</label
+    >
+    <br />
+    <br />
+    <label class="radios">
+      <input type="radio" class="radios" name="option" id="enabler" /> Enable
+      ElementHider ONLY on websites that include any of the following strings in
+      the url</label
+    >
+    <br />
+    <br />
+    <p id="tip">
+      ( Leave textbox blank if you want ElementHider to hide elements on all
+      websites. )
+    </p>
+    <textarea
+      id="urls"
+      placeholder="For example: youtube.com 
+Separate urls/strings with new line "
+    ></textarea>
+    <br />
+    <br />
+    <a
+      target="_blank"
+      href="https://www.paypal.com/donate/?hosted_button_id=FJL6W8MDDVZLL"
+      ><img
+        src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"
+        border="0"
+        title="PayPal - The safer, easier way to pay online!"
+        alt="Donate with PayPal button"
+    /></a>
+    <p>via PayPal</p>
+  </body>
+</html>
