@@ -2,8 +2,11 @@
 const ELEM_TAGS =
   "em, h1, h2, h3, h4, h5, h6, span, b, a, p, li, article, strong, blockquote, div, th, td, img";
 
+<<<<<<< HEAD
 let urlChangeHandled = false;
 
+=======
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
 const config = {
   percentage: 0,
   blurOption: 0,
@@ -74,10 +77,15 @@ function testElem(elem, word) {
   if (elem.attr("title") == undefined)
     elem.attr("title", "Keywords found: " + word);
   else if (!elem.attr("title").includes("Keywords found:"))
+<<<<<<< HEAD
     elem.attr("title", "Keywords found: " + word);
   else elem.attr("title", elem.attr("title") + ", " + word);
 
   elem.addClass("ehext-found");
+=======
+    elem.attr("title", "Keyword found: " + word);
+  else elem.attr("title", elem.attr("title") + ", " + word);
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
 }
 
 /**
@@ -114,13 +122,20 @@ function hideElem(elem, word) {
       if (elem.attr("title") == undefined)
         elem.attr("title", "Keywords found: " + word);
       else if (!elem.attr("title").includes("Keywords found:"))
+<<<<<<< HEAD
         elem.attr("title", "Keywords found: " + word);
+=======
+        elem.attr("title", "Keyword found: " + word);
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
       else elem.attr("title", elem.attr("title") + ", " + word);
     }
   } else {
     elem.hide();
   }
+<<<<<<< HEAD
   elem.addClass("ehext-found");
+=======
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
 }
 
 /**
@@ -142,8 +157,11 @@ function hideViaSelector(selector, testingMode) {
       "border-color": "blue",
       "border-width": "2px",
     });
+<<<<<<< HEAD
 
   elem.addClass("ehext-found");
+=======
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
 }
 
 /**
@@ -153,6 +171,7 @@ function hideViaSelector(selector, testingMode) {
  * @param  Element elem - Element or string of tags
  */
 function checkAllElems(wordlist, testingMode, elem) {
+<<<<<<< HEAD
   let checkElem, elemType;
   if (elem != ELEM_TAGS) {
     elemType = $(elem).parent(ELEM_TAGS);
@@ -169,6 +188,15 @@ function checkAllElems(wordlist, testingMode, elem) {
       )
         checkElem = $(this).parent(ELEM_TAGS);
       else checkElem = $(this);
+=======
+  let elemType;
+  if (elem != ELEM_TAGS) {
+    elemType = $(elem).parent().parent(ELEM_TAGS);
+  } else elemType = $(elem);
+
+  elemType.each(function () {
+    if ($(this).find("*").length < config.childElemRatio) {
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
       // How many child elements are allowed
       let elemExist = setInterval(function () {
         if ($(this) != null) clearInterval(elemExist);
@@ -201,6 +229,7 @@ function checkAllElems(wordlist, testingMode, elem) {
               if (word.slice(-1) == "^") {
                 word = word.slice(0, -1);
                 if (
+<<<<<<< HEAD
                   new RegExp("\\b" + word + "\\b", "gi").test(
                     checkElem.text()
                   ) &&
@@ -208,10 +237,18 @@ function checkAllElems(wordlist, testingMode, elem) {
                 ) {
                   if (!testingMode) hideElem(checkElem, word);
                   else testElem(checkElem, word);
+=======
+                  new RegExp("\\b" + word + "\\b", "gi").test($(this).text()) &&
+                  $(this).css("display") != "none"
+                ) {
+                  if (!testingMode) hideElem($(this), word);
+                  else testElem($(this), word);
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
                 }
                 // If keyword has to be exact and case-sensitive
               } else {
                 if (
+<<<<<<< HEAD
                   new RegExp("\\b" + word + "\\b", "g").test(
                     checkElem.text()
                   ) &&
@@ -219,27 +256,50 @@ function checkAllElems(wordlist, testingMode, elem) {
                 ) {
                   if (!testingMode) hideElem(checkElem, word);
                   else testElem(checkElem, word);
+=======
+                  new RegExp("\\b" + word + "\\b", "g").test($(this).text()) &&
+                  $(this).css("display") != "none"
+                ) {
+                  if (!testingMode) hideElem($(this), word);
+                  else testElem($(this), word);
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
                 }
               }
               // If word is case-insensitive
             } else if (word.slice(-1) == "^") {
               word = word.slice(0, -1).trim();
               if (
+<<<<<<< HEAD
                 new RegExp(word, "gi").test(checkElem.text()) &&
                 checkElem.css("display") != "none"
               ) {
                 if (!testingMode) hideElem(checkElem, word);
                 else testElem(checkElem, word);
+=======
+                new RegExp(word, "gi").test($(this).text()) &&
+                $(this).css("display") != "none"
+              ) {
+                if (!testingMode) hideElem($(this), word);
+                else testElem($(this), word);
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
               }
               // Word is case-sensitive and it can appear anywhere in the text.
             } else {
               word = word.trim();
               if (
+<<<<<<< HEAD
                 new RegExp(word, "g").test(checkElem.text()) &&
                 checkElem.css("display") != "none"
               ) {
                 if (!testingMode) hideElem(checkElem, word);
                 else testElem(checkElem, word);
+=======
+                new RegExp(word, "g").test($(this).text()) &&
+                $(this).css("display") != "none"
+              ) {
+                if (!testingMode) hideElem($(this), word);
+                else testElem($(this), word);
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
               }
             }
           }
@@ -249,6 +309,7 @@ function checkAllElems(wordlist, testingMode, elem) {
   });
 }
 
+<<<<<<< HEAD
 const checkAlreadyFound = () => {
   $(document)
     .find(".ehext-found")
@@ -288,6 +349,8 @@ const checkAlreadyFound = () => {
   }, 200);
 };
 
+=======
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
 /**
  * getWordlist, load list of user set keywords
  * @param  Element elem - element to be handled
@@ -371,6 +434,7 @@ $(window).ready(function () {
 // For websites that load new entire pages with ajax (like youtube.com)
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.greeting === "urlChange") {
+<<<<<<< HEAD
     urlChangeHandled = false;
     $(ELEM_TAGS).on("load", (e) => {
       if (!urlChangeHandled) {
@@ -379,6 +443,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.log("Loaded:", e);
       }
     });
+=======
+    runningStatus(ELEM_TAGS);
+>>>>>>> 7a0b14cac8fa3ca9391eee6cc67f6f82dc59c56f
   }
   sendResponse("Message received");
 });
