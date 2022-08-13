@@ -164,11 +164,10 @@ function checkAllElems(wordlist, testingMode, elem) {
       $(this).hasClass("ehext-found")
     ) {
       if (
-        $(this).parent(ELEM_TAGS).find("*").length < config.childElemRatio ||
-        $(this).hasClass("ehext-found")
-      )
+        $(this).parent(ELEM_TAGS).find("*").length < config.childElemRatio
+      ) {
         checkElem = $(this).parent(ELEM_TAGS);
-      else checkElem = $(this);
+      } else checkElem = $(this);
       // How many child elements are allowed
       let elemExist = setInterval(function () {
         if ($(this) != null) clearInterval(elemExist);
@@ -273,19 +272,18 @@ const checkAlreadyFound = () => {
       }
 
       $(this).show();
-      console.log("Already found");
     });
-  let currLength = 0, docLength = 0, inter = setInterval(() => {
-    currLength = $(document).find(ELEM_TAGS).length;
-    console.log(currLength, docLength);
-    if(currLength > docLength) {
-      docLength = currLength;
-    }
-    else {
-      runningStatus(ELEM_TAGS);
-      clearInterval(inter);
-    }
-  }, 200);
+  let currLength = 0,
+    docLength = 0,
+    inter = setInterval(() => {
+      currLength = $(document).find("*").length;
+      if (currLength > docLength) {
+        docLength = currLength;
+      } else {
+        runningStatus(ELEM_TAGS);
+        clearInterval(inter);
+      }
+    }, 200);
 };
 
 /**
@@ -376,7 +374,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       if (!urlChangeHandled) {
         checkAlreadyFound();
         urlChangeHandled = true;
-        console.log("Loaded:", e);
       }
     });
   }
