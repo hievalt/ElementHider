@@ -2,8 +2,6 @@
 const ELEM_TAGS =
   "em, h1, h2, h3, h4, h5, h6, span, b, a, p, li, article, strong, blockquote, div, th, td, img";
 
-let urlChangeHandled = false;
-
 const config = {
   percentage: 0,
   blurOption: 0,
@@ -41,10 +39,6 @@ const initConfig = () => {
       config.childElemRatio = parseInt(
         document.querySelectorAll("*").length * config.percentage
       );
-      config.childElemRatio =
-        config.childElemRatio >= config.childElemRatioMin
-          ? config.childElemRatio
-          : config.childElemRatioMin;
       config.blurOption = result.blurOption;
       config.hoveringOption = result.hoveringOption;
       config.testingMode = result.testingMode;
@@ -153,21 +147,35 @@ function hideViaSelector(selector, testingMode) {
  * @param  Element elem - Element or string of tags
  */
 function checkAllElems(wordlist, testingMode, elem) {
-  let checkElem, elemType;
+  let checkElem,
+    elemType,
+    found = false;
   if (elem != ELEM_TAGS) {
     elemType = $(elem).parent(ELEM_TAGS);
   } else elemType = $(elem);
+
+  config.childElemRatio =
+    config.childElemRatio >= config.childElemRatioMin
+      ? config.childElemRatio
+      : config.childElemRatioMin;
 
   elemType.each(function () {
     if (
       $(this).find("*").length < config.childElemRatio ||
       $(this).hasClass("ehext-found")
     ) {
-      if (
-        $(this).parent(ELEM_TAGS).find("*").length < config.childElemRatio
-      ) {
+      if ($(this).parent(ELEM_TAGS).find("*").length < config.childElemRatio) {
         checkElem = $(this).parent(ELEM_TAGS);
       } else checkElem = $(this);
+
+      if (checkElem.hasClass("ehext-found")) {
+        checkElem.removeAttr("title");
+        checkElem.removeAttr("style");
+        checkElem.removeAttr("mouseenter");
+        checkElem.removeAttr("mouseleave");
+        checkElem.show();
+      }
+
       // How many child elements are allowed
       let elemExist = setInterval(function () {
         if ($(this) != null) clearInterval(elemExist);
@@ -205,6 +213,7 @@ function checkAllElems(wordlist, testingMode, elem) {
                   ) &&
                   checkElem.css("display") != "none"
                 ) {
+                  found = true;
                   if (!testingMode) hideElem(checkElem, word);
                   else testElem(checkElem, word);
                 }
@@ -216,6 +225,7 @@ function checkAllElems(wordlist, testingMode, elem) {
                   ) &&
                   checkElem.css("display") != "none"
                 ) {
+                  found = true;
                   if (!testingMode) hideElem(checkElem, word);
                   else testElem(checkElem, word);
                 }
@@ -227,6 +237,7 @@ function checkAllElems(wordlist, testingMode, elem) {
                 new RegExp(word, "gi").test(checkElem.text()) &&
                 checkElem.css("display") != "none"
               ) {
+                found = true;
                 if (!testingMode) hideElem(checkElem, word);
                 else testElem(checkElem, word);
               }
@@ -237,6 +248,7 @@ function checkAllElems(wordlist, testingMode, elem) {
                 new RegExp(word, "g").test(checkElem.text()) &&
                 checkElem.css("display") != "none"
               ) {
+                found = true;
                 if (!testingMode) hideElem(checkElem, word);
                 else testElem(checkElem, word);
               }
@@ -249,30 +261,6 @@ function checkAllElems(wordlist, testingMode, elem) {
 }
 
 const checkAlreadyFound = () => {
-  $(document)
-    .find(".ehext-found")
-    .each(function () {
-      if (
-        $(this).attr("title") != undefined &&
-        $(this).attr("title").includes("Keywords found")
-      ) {
-        $(this).attr("title", "");
-      }
-
-      if ($(this).css("border-color") === "rgb(0, 255, 0)") {
-        $(this).css("border", "none");
-      }
-
-      if ($(this).css("filter") === "blur(10px)") {
-        $(this).css("filter", "blur(0px)");
-      }
-
-      if (config.hoveringOption) {
-        $(this).unbind("mouseenter").unbind("mouseleave");
-      }
-
-      $(this).show();
-    });
   let currLength = 0,
     docLength = 0,
     inter = setInterval(() => {
@@ -283,7 +271,7 @@ const checkAlreadyFound = () => {
         runningStatus(ELEM_TAGS);
         clearInterval(inter);
       }
-    }, 200);
+    }, 1);
 };
 
 /**
@@ -331,7 +319,19 @@ function runningStatus(elem) {
  *  Only checks new or changed elements on the webpage
  */
 function Observer() {
+  let currentUrl = location.href;
+
   let observer = new MutationObserver(function (mutation) {
+    if (currentUrl === location.href)
+      config.childElemRatio += parseInt(
+        (mutation.length * config.percentage) / 2
+      );
+    else {
+      config.childElemRatio = parseInt(
+        document.querySelectorAll("*").length * config.percentage
+      );
+      currentUrl = location.href;
+    }
     for (let a = 0; a < mutation.length; a++) {
       let addedNode = mutation[a].addedNodes;
       for (let b = 0; b < addedNode.length; b++) {
@@ -348,7 +348,7 @@ function Observer() {
   });
 
   // Mutation observer conf
-  let config = {
+  let obsConfig = {
     childList: true,
     subtree: true,
     attributes: true,
@@ -356,7 +356,7 @@ function Observer() {
   };
 
   // Start observing
-  observer.observe(window.document, config);
+  observer.observe(window.document, obsConfig);
   return observer;
 }
 
@@ -369,7 +369,7 @@ $(window).ready(function () {
 // For websites that load new entire pages with ajax (like youtube.com)
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.greeting === "urlChange") {
-    urlChangeHandled = false;
+    let urlChangeHandled = false;
     $(ELEM_TAGS).on("load", (e) => {
       if (!urlChangeHandled) {
         checkAlreadyFound();
