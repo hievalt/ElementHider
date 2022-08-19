@@ -137,7 +137,7 @@ function hideViaSelector(selector, testingMode) {
       "border-width": "2px",
     });
 
-  elem.addClass("ehext-found");
+  selector.addClass("ehext-found");
 }
 
 /**
@@ -193,11 +193,13 @@ function checkAllElems(wordlist, testingMode, elem) {
             url === null
           ) {
             // Keyword is {css selector}
-            if (word.slice(0, 1) == "{" && word.slice(-1) == "}")
+            if (word.slice(0, 1) == "{" && word.slice(-1) == "}") {
               hideViaSelector(
                 $(word.replace("{", "").replace("}", "")),
                 testingMode
               );
+              continue;
+            }
 
             // If word has to be exactly in the given format but special characters can follow
             if (word.slice(0, 1) == "*") {
