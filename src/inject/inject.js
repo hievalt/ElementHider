@@ -35,7 +35,7 @@ const initConfig = () => {
         : 0.016;
       config.childElemRatioMin = !isNaN(parseInt(result.childElemRatioMin))
         ? parseInt(result.childElemRatioMin)
-        : 25;
+        : 35;
       config.childElemRatio = parseInt(
         document.querySelectorAll("*").length * config.percentage
       );
@@ -171,8 +171,8 @@ function checkAllElems(wordlist, testingMode, elem) {
       if (checkElem.hasClass("ehext-found")) {
         checkElem.removeAttr("title");
         checkElem.removeAttr("style");
-        checkElem.removeAttr("mouseenter");
-        checkElem.removeAttr("mouseleave");
+        checkElem.unbind("mouseenter");
+        checkElem.unbind("mouseleave");
         checkElem.show();
       }
 

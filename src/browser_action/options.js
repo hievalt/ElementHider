@@ -26,7 +26,7 @@ function loadData() {
       result.childElemRatioMin != undefined
         ? (document.querySelector("#childElemRatioMin").value =
             result.childElemRatioMin)
-        : (document.querySelector("#childElemRatioMin").value = "25");
+        : (document.querySelector("#childElemRatioMin").value = "35");
       document.querySelector("#blurred").checked = result.blurOption;
       if (document.querySelector("#blurred").checked)
         document.querySelector("#hoveringOption").style.display =
