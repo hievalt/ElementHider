@@ -307,6 +307,8 @@ function runningStatus(elem) {
         ) {
           getWordlist(elem);
           break;
+        } else if (config.urlRule) {
+          getWordlist(elem);
         }
       }
     } else {
