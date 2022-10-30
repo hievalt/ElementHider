@@ -167,9 +167,9 @@ function checkAllElems(wordlist, testingMode, elem) {
       $(this).find("*").length < config.childElemRatio ||
       $(this).hasClass("ehext-found")
     ) {
-      if ($(this).parent(ELEM_TAGS).find("*").length < config.childElemRatio && !config.blurOption) {
-        checkElem = $(this).parent(ELEM_TAGS);
-      } else checkElem = $(this);
+      $(this).parent(ELEM_TAGS).find("*").length < config.childElemRatio
+        ? (checkElem = $(this).parent(ELEM_TAGS))
+        : (checkElem = $(this));
 
       if (checkElem.hasClass("ehext-found")) {
         checkElem.removeAttr("title");
@@ -379,11 +379,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 chrome.storage.sync.get("performanceMode", (result) => {
-  if (result.performanceMode) {
-    initConfig();
-  } else {
-    $(document).ready(() => {
-      initConfig();
-    });
-  }
+  result.performanceMode
+    ? initConfig()
+    : $(document).ready(() => {
+        initConfig();
+      });
 });
