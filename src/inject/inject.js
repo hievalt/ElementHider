@@ -11,7 +11,6 @@ const config = {
   testingMode: 0,
   urlRule: 0,
   urls: 0,
-  enabled: 0,
   observer: 0,
   childElemRatioMin: 0,
   childElemRatio: 0,
@@ -29,7 +28,6 @@ const initConfig = () => {
       "words",
       "urlRule",
       "urls",
-      "enabled",
     ],
     (result) => {
       config.percentage = !isNaN(parseFloat(result.childElemRatio))
@@ -48,7 +46,6 @@ const initConfig = () => {
       config.words = result.words;
       config.urlRule = result.urlRule;
       config.urls = result.urls;
-      config.enabled = result.enabled;
       config.observer = Observer();
 
       runningStatus(ELEM_TAGS);
@@ -290,29 +287,27 @@ function getWordlist(elem) {
  * @param  Element elem - element to be handled
  */
 function runningStatus(elem) {
-  if (config.enabled) {
-    if (config.urls != undefined && config.urls != "") {
-      let urls = config.urls;
-      urls = urls.split("\n");
-      for (url in urls) {
-        if (
-          window.location.href.includes(urls[url].trim()) &&
-          config.urlRule // urlRule set to disable on this site
-        ) {
-          break;
-        } else if (
-          window.location.href.includes(urls[url].trim()) &&
-          !config.urlRule // urlRule set to enable on this site
-        ) {
-          getWordlist(elem);
-          break;
-        } else if (config.urlRule) {
-          getWordlist(elem);
-        }
+  if (config.urls != undefined && config.urls != "") {
+    let urls = config.urls;
+    urls = urls.split("\n");
+    for (url in urls) {
+      if (
+        window.location.href.includes(urls[url].trim()) &&
+        config.urlRule // urlRule set to disable on this site
+      ) {
+        break;
+      } else if (
+        window.location.href.includes(urls[url].trim()) &&
+        !config.urlRule // urlRule set to enable on this site
+      ) {
+        getWordlist(elem);
+        break;
+      } else if (config.urlRule) {
+        getWordlist(elem);
       }
-    } else {
-      getWordlist(elem);
     }
+  } else {
+    getWordlist(elem);
   }
 }
 
@@ -378,10 +373,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   sendResponse("Message received");
 });
 
-chrome.storage.sync.get("performanceMode", (result) => {
-  result.performanceMode
-    ? initConfig()
-    : $(document).ready(() => {
-        initConfig();
-      });
+chrome.storage.sync.get(["enabled", "performanceMode"], (result) => {
+  if (result.enabled) {
+    result.performanceMode
+      ? initConfig()
+      : $(document).ready(() => {
+          initConfig();
+        });
+  }
 });
