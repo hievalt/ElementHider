@@ -29,12 +29,13 @@ function SaveWords() {
 
 function loadData() {
   chrome.storage.sync.get(
-    ["enabled", "testingMode", "words"],
+    ["enabled", "performanceMode", "testingMode", "words"],
     function (result) {
       if (result.words != "        " || undefined)
         $("#keywords").val(result.words);
       else $("#keywords").value = "";
       $("#toggle").prop("checked", result.enabled);
+      $("#togglePerformance").prop("checked", result.performanceMode);
       $("#toggleTesting").prop("checked", result.testingMode);
       onOff();
     }
@@ -75,6 +76,13 @@ function saveEnabled() {
     enabled: enabled,
   });
   onOff();
+}
+
+function savePerformanceMode() {
+  let performanceMode = $("#togglePerformance").prop("checked");
+  chrome.storage.sync.set({
+    performanceMode: performanceMode,
+  });
 }
 
 function saveTestingMode() {
@@ -131,6 +139,7 @@ $(document).ready(function () {
   $("#openKeywords").bind("click", keywordEditor);
   $("#save-btn").bind("click", SaveWords);
   $("#toggle").bind("change", saveEnabled);
+  $("#togglePerformance").bind("change", savePerformanceMode);
   $("#toggleTesting").bind("change", saveTestingMode);
   $("#help").bind("click", showExamples);
   $("#optionsIcon").bind("click", showOptions);
@@ -140,6 +149,7 @@ $(document).ready(function () {
   $("#wordLine").fadeIn(500);
   $("#keywords").fadeIn(500);
   $("#onoff").fadeIn(500);
+  $("#performanceMode").fadeIn(500);
   $("#testingMode").fadeIn(500);
   $("#help").fadeIn(500);
 });

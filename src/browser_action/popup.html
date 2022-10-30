@@ -30,15 +30,25 @@ with a new line"
       >
       </textarea>
       <p id="maxCharError"></p>
-      <button id="save-btn">Save changes</button>
-      <input type="checkbox" id="toggle" /><label id="onoff">Off</label>
-      <label
-        id="testingMode"
-        title="Highlights elements instead of hiding to see the effects of keywords."
-      >
-        <input type="checkbox" id="toggleTesting" /> Testing mode</label
-      >
-      <br/>
+      <div id="quickOptions">
+        <button id="save-btn">Save changes</button>
+        <input type="checkbox" id="toggle" /><label id="onoff">Off</label>
+        <label
+          id="performanceMode"
+          title="Hide elements as fast as possible as the site loads. Might slow down site loading times."
+        >
+          <input type="checkbox" id="togglePerformance" checked /> Performance mode
+        </label>
+        <br>
+        <label
+          id="testingMode"
+          title="Highlights elements instead of hiding to see the effects of keywords."
+        >
+          <input type="checkbox" id="toggleTesting" /> Testing mode
+        </label>
+      </div>
+      <br>
+      <br>
       <div id="help">Hide keyword examples</div>
       <hr />
       <div id="examples">

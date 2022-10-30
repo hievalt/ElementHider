@@ -7,6 +7,7 @@ const config = {
   blurOption: 0,
   hoveringOption: 0,
   words: 0,
+  performanceMode: 0,
   testingMode: 0,
   urlRule: 0,
   urls: 0,
@@ -23,6 +24,7 @@ const initConfig = () => {
       "childElemRatioMin",
       "blurOption",
       "hoveringOption",
+      "performanceMode",
       "testingMode",
       "words",
       "urlRule",
@@ -41,6 +43,7 @@ const initConfig = () => {
       );
       config.blurOption = result.blurOption;
       config.hoveringOption = result.hoveringOption;
+      config.performanceMode = result.performanceMode;
       config.testingMode = result.testingMode;
       config.words = result.words;
       config.urlRule = result.urlRule;
@@ -164,7 +167,7 @@ function checkAllElems(wordlist, testingMode, elem) {
       $(this).find("*").length < config.childElemRatio ||
       $(this).hasClass("ehext-found")
     ) {
-      if ($(this).parent(ELEM_TAGS).find("*").length < config.childElemRatio) {
+      if ($(this).parent(ELEM_TAGS).find("*").length < config.childElemRatio && !config.blurOption) {
         checkElem = $(this).parent(ELEM_TAGS);
       } else checkElem = $(this);
 
@@ -176,10 +179,6 @@ function checkAllElems(wordlist, testingMode, elem) {
         checkElem.show();
       }
 
-      // How many child elements are allowed
-      let elemExist = setInterval(function () {
-        if ($(this) != null) clearInterval(elemExist);
-      }, 100);
       for (word in wordlist) {
         /* Keyword cannot be empty. 
                 '//' starts a comment line and can be ignored. */
@@ -364,11 +363,6 @@ function Observer() {
   return observer;
 }
 
-// Eventhandler for document loaded
-$(window).ready(function () {
-  initConfig();
-});
-
 // Check all elements if url has been changed
 // For websites that load new entire pages with ajax (like youtube.com)
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -382,4 +376,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     });
   }
   sendResponse("Message received");
+});
+
+chrome.storage.sync.get("performanceMode", (result) => {
+  if (result.performanceMode) {
+    initConfig();
+  } else {
+    $(document).ready(() => {
+      initConfig();
+    });
+  }
 });

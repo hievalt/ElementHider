@@ -12,6 +12,7 @@ body {
 #mainPopup,
 #help,
 #onoff,
+#performanceMode,
 #testingMode,
 #openKeywords,
 #examples {
@@ -49,17 +50,20 @@ body {
 }
 
 #onoff,
-#testingMode {
+#testingMode,
+#performanceMode {
   font-size: 14px;
   text-align: center;
 }
 
-#testingMode {
+#testingMode,
+#performanceMode {
   float: right;
 }
 
 #onoff,
 #testingMode,
+#performanceMode,
 #help {
   display: none;
 }
