@@ -14,6 +14,7 @@ const config = {
   observer: 0,
   childElemRatioMin: 0,
   childElemRatio: 0,
+  enabled: 0
 };
 
 const initConfig = () => {
@@ -28,6 +29,8 @@ const initConfig = () => {
       "words",
       "urlRule",
       "urls",
+      "enabled"
+
     ],
     (result) => {
       config.percentage = !isNaN(parseFloat(result.childElemRatio))
@@ -287,7 +290,7 @@ function getWordlist(elem) {
  * @param  Element elem - element to be handled
  */
 function runningStatus(elem) {
-  if (config.urls != undefined && config.urls != "") {
+  if (config.urls != undefined && config.urls != "" && config.enabled) {
     let urls = config.urls;
     urls = urls.split("\n");
     for (url in urls) {
